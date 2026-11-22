@@ -1,0 +1,921 @@
+[
+  {
+    "request": {
+      "problem": "Q11",
+      "encoding": "original"
+    },
+    "id": "b71c30b6c4e948e390acbe0db8c1d93f",
+    "summary": {
+      "problem": "Q11",
+      "encoding": "original",
+      "backend": "wasm",
+      "results": [
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 29,
+          "id": "01",
+          "title": "功能与源数据转发",
+          "budget": 66
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 39,
+          "id": "02",
+          "title": "功能与源数据转发",
+          "budget": 86
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 35,
+          "id": "03",
+          "title": "功能与源数据转发",
+          "budget": 78
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 35,
+          "id": "04",
+          "title": "功能与源数据转发",
+          "budget": 78
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 34,
+          "id": "05",
+          "title": "间隔一条指令及写后读",
+          "budget": 76
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 40,
+          "id": "06",
+          "title": "间隔一条指令及写后读",
+          "budget": 88
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 32,
+          "id": "07",
+          "title": "间隔一条指令及写后读",
+          "budget": 72
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 40,
+          "id": "08",
+          "title": "间隔一条指令及写后读",
+          "budget": 88
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 35,
+          "id": "09",
+          "title": "间隔两条指令及写回",
+          "budget": 78
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 37,
+          "id": "10",
+          "title": "间隔两条指令及写回",
+          "budget": 82
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 37,
+          "id": "11",
+          "title": "间隔两条指令及写回",
+          "budget": 82
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 41,
+          "id": "12",
+          "title": "间隔两条指令及写回",
+          "budget": 90
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 41,
+          "id": "13",
+          "title": "寄存器别名与最新值优先",
+          "budget": 79
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 47,
+          "id": "14",
+          "title": "寄存器别名与最新值优先",
+          "budget": 98
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 46,
+          "id": "15",
+          "title": "寄存器别名与最新值优先",
+          "budget": 97
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 38,
+          "id": "16",
+          "title": "寄存器别名与最新值优先",
+          "budget": 78
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 46,
+          "id": "17",
+          "title": "条件路径与目的选择",
+          "budget": 93
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 47,
+          "id": "18",
+          "title": "条件路径与目的选择",
+          "budget": 104
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 32,
+          "id": "19",
+          "title": "条件路径与目的选择",
+          "budget": 72
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 40,
+          "id": "20",
+          "title": "条件路径与目的选择",
+          "budget": 88
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 39,
+          "id": "21",
+          "title": "组合与周期压力",
+          "budget": 86
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 41,
+          "id": "22",
+          "title": "组合与周期压力",
+          "budget": 90
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 41,
+          "id": "23",
+          "title": "组合与周期压力",
+          "budget": 90
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 190,
+          "id": "24",
+          "title": "组合与周期压力",
+          "budget": 208
+        }
+      ],
+      "passed": 24,
+      "total": 24,
+      "seconds": 5.129,
+      "record": "C:\\Users\\陈清扬\\Documents\\计算机组成原理\\P6上机练习与评测\\runs\\20261120_132446_Q11_101200"
+    },
+    "intermediate_updates": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "request": {
+      "problem": "Q14",
+      "encoding": "practice",
+      "source_path": "C:/Users/Public/Documents/ISE_projects/Q14"
+    },
+    "id": "c06a90cd743d407ca5bac5c0c899b5ee",
+    "summary": {
+      "problem": "Q14",
+      "encoding": "practice",
+      "backend": "wasm",
+      "results": [
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 58,
+          "id": "01",
+          "title": "功能与源数据转发",
+          "budget": 122
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 63,
+          "id": "02",
+          "title": "功能与源数据转发",
+          "budget": 134
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 63,
+          "id": "03",
+          "title": "功能与源数据转发",
+          "budget": 130
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 64,
+          "id": "04",
+          "title": "功能与源数据转发",
+          "budget": 134
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 58,
+          "id": "05",
+          "title": "间隔一条指令及写后读",
+          "budget": 124
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 68,
+          "id": "06",
+          "title": "间隔一条指令及写后读",
+          "budget": 140
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 61,
+          "id": "07",
+          "title": "间隔一条指令及写后读",
+          "budget": 128
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 64,
+          "id": "08",
+          "title": "间隔一条指令及写后读",
+          "budget": 136
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 61,
+          "id": "09",
+          "title": "间隔两条指令及写回",
+          "budget": 128
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 66,
+          "id": "10",
+          "title": "间隔两条指令及写回",
+          "budget": 138
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 61,
+          "id": "11",
+          "title": "间隔两条指令及写回",
+          "budget": 130
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 69,
+          "id": "12",
+          "title": "间隔两条指令及写回",
+          "budget": 142
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 58,
+          "id": "13",
+          "title": "寄存器别名与最新值优先",
+          "budget": 122
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 63,
+          "id": "14",
+          "title": "寄存器别名与最新值优先",
+          "budget": 134
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 63,
+          "id": "15",
+          "title": "寄存器别名与最新值优先",
+          "budget": 130
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 64,
+          "id": "16",
+          "title": "寄存器别名与最新值优先",
+          "budget": 134
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 58,
+          "id": "17",
+          "title": "条件路径与目的选择",
+          "budget": 124
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 68,
+          "id": "18",
+          "title": "条件路径与目的选择",
+          "budget": 140
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 61,
+          "id": "19",
+          "title": "条件路径与目的选择",
+          "budget": 128
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 64,
+          "id": "20",
+          "title": "条件路径与目的选择",
+          "budget": 136
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 61,
+          "id": "21",
+          "title": "组合与周期压力",
+          "budget": 128
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 66,
+          "id": "22",
+          "title": "组合与周期压力",
+          "budget": 138
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 64,
+          "id": "23",
+          "title": "组合与周期压力",
+          "budget": 136
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 369,
+          "id": "24",
+          "title": "组合与周期压力",
+          "budget": 646
+        }
+      ],
+      "passed": 24,
+      "total": 24,
+      "seconds": 4.403,
+      "record": "C:\\Users\\陈清扬\\Documents\\计算机组成原理\\P6上机练习与评测\\runs\\20261120_132452_Q14_288700"
+    },
+    "intermediate_updates": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "request": {
+      "problem": "M01",
+      "encoding": "practice"
+    },
+    "id": "49843480e23b4005a977109d279148fc",
+    "summary": {
+      "problem": "M01",
+      "encoding": "practice",
+      "backend": "wasm",
+      "results": [
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "01",
+          "title": "功能与源数据转发",
+          "budget": 50
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "02",
+          "title": "功能与源数据转发",
+          "budget": 62
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "03",
+          "title": "功能与源数据转发",
+          "budget": 58
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "04",
+          "title": "功能与源数据转发",
+          "budget": 62
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "05",
+          "title": "间隔一条指令及写后读",
+          "budget": 52
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "06",
+          "title": "间隔一条指令及写后读",
+          "budget": 68
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "07",
+          "title": "间隔一条指令及写后读",
+          "budget": 56
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "08",
+          "title": "间隔一条指令及写后读",
+          "budget": 64
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "09",
+          "title": "间隔两条指令及写回",
+          "budget": 58
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "10",
+          "title": "间隔两条指令及写回",
+          "budget": 66
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "11",
+          "title": "间隔两条指令及写回",
+          "budget": 58
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "12",
+          "title": "间隔两条指令及写回",
+          "budget": 68
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "13",
+          "title": "寄存器别名与最新值优先",
+          "budget": 50
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "14",
+          "title": "寄存器别名与最新值优先",
+          "budget": 62
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "15",
+          "title": "寄存器别名与最新值优先",
+          "budget": 56
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "16",
+          "title": "寄存器别名与最新值优先",
+          "budget": 62
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "17",
+          "title": "条件路径与目的选择",
+          "budget": 52
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "18",
+          "title": "条件路径与目的选择",
+          "budget": 66
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "19",
+          "title": "条件路径与目的选择",
+          "budget": 56
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "20",
+          "title": "条件路径与目的选择",
+          "budget": 64
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "21",
+          "title": "组合与周期压力",
+          "budget": 58
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "22",
+          "title": "组合与周期压力",
+          "budget": 66
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "23",
+          "title": "组合与周期压力",
+          "budget": 66
+        },
+        {
+          "status": "CE",
+          "message": "Verilog 编译或接口检查失败",
+          "detail": "error: Failed to open 'system.vpi' because:\n     : dynamic linking not enabled\n/p6_judge_tb.v:1: error: timescale directive cannot be inside a module definition.\n/p6_judge_tb.v:3: syntax error\n/src/mips.v:1: Errors in port declarations.\n/p6_judge_tb.v:13: syntax error\nI give up.\nAssertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\\win\\async.c, line 94\n",
+          "id": "24",
+          "title": "组合与周期压力",
+          "budget": 446
+        }
+      ],
+      "passed": 0,
+      "total": 24,
+      "seconds": 0.644,
+      "record": "C:\\Users\\陈清扬\\Documents\\计算机组成原理\\P6上机练习与评测\\runs\\20261120_132456_M01_561600"
+    },
+    "intermediate_updates": [
+      17
+    ]
+  },
+  {
+    "request": {
+      "problem": "Q15",
+      "encoding": "practice"
+    },
+    "id": "74992b3d8ea949589e9853359595cb98",
+    "summary": {
+      "problem": "Q15",
+      "encoding": "practice",
+      "backend": "wasm",
+      "results": [
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 23,
+          "id": "01",
+          "title": "功能与源数据转发",
+          "budget": 54
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 26,
+          "id": "02",
+          "title": "功能与源数据转发",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "03",
+          "title": "功能与源数据转发",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "04",
+          "title": "功能与源数据转发",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 24,
+          "id": "05",
+          "title": "间隔一条指令及写后读",
+          "budget": 56
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 26,
+          "id": "06",
+          "title": "间隔一条指令及写后读",
+          "budget": 60
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 26,
+          "id": "07",
+          "title": "间隔一条指令及写后读",
+          "budget": 60
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 26,
+          "id": "08",
+          "title": "间隔一条指令及写后读",
+          "budget": 60
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "09",
+          "title": "间隔两条指令及写回",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "10",
+          "title": "间隔两条指令及写回",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "11",
+          "title": "间隔两条指令及写回",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "12",
+          "title": "间隔两条指令及写回",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 23,
+          "id": "13",
+          "title": "寄存器别名与最新值优先",
+          "budget": 54
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 26,
+          "id": "14",
+          "title": "寄存器别名与最新值优先",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "15",
+          "title": "寄存器别名与最新值优先",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "16",
+          "title": "寄存器别名与最新值优先",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 25,
+          "id": "17",
+          "title": "条件路径与目的选择",
+          "budget": 58
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "18",
+          "title": "条件路径与目的选择",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "19",
+          "title": "条件路径与目的选择",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 27,
+          "id": "20",
+          "title": "条件路径与目的选择",
+          "budget": 62
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 29,
+          "id": "21",
+          "title": "组合与周期压力",
+          "budget": 66
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 31,
+          "id": "22",
+          "title": "组合与周期压力",
+          "budget": 70
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 31,
+          "id": "23",
+          "title": "组合与周期压力",
+          "budget": 70
+        },
+        {
+          "status": "AC",
+          "message": "Accepted.",
+          "cycles": 108,
+          "id": "24",
+          "title": "组合与周期压力",
+          "budget": 190
+        }
+      ],
+      "passed": 24,
+      "total": 24,
+      "seconds": 4.389,
+      "record": "C:\\Users\\陈清扬\\Documents\\计算机组成原理\\P6上机练习与评测\\runs\\20261120_132457_Q15_456400"
+    },
+    "intermediate_updates": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ]
+  }
+]
