@@ -1,0 +1,2425 @@
+{
+  "BASE": {
+    "id": "BASE",
+    "name": "baseline",
+    "format": "add / sub / ori / lw / sw / beq / lui / nop",
+    "encoding_bits": null,
+    "original_bits": null,
+    "original": null,
+    "kind": "base",
+    "description": "原八条基础指令与三种时钟相位复位检查",
+    "rtl": "BASE 不新增指令；运行 baseline 与三组异步复位用例。",
+    "other": "P3 加指令练习包的回归项，建议每次改电路后先跑 BASE。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "baseline",
+        "label": "01",
+        "title": "基线",
+        "cycles": 164,
+        "finish_pc": 0
+      },
+      {
+        "id": "reset_low",
+        "label": "02",
+        "title": "复位（低电平）",
+        "cycles": 165,
+        "finish_pc": 0
+      },
+      {
+        "id": "reset_high",
+        "label": "03",
+        "title": "复位（高电平）",
+        "cycles": 165,
+        "finish_pc": 0
+      },
+      {
+        "id": "reset_across_rising",
+        "label": "04",
+        "title": "跨上升沿复位",
+        "cycles": 165,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E01": {
+    "id": "E01",
+    "name": "xor",
+    "format": "xor $rd, $rs, $rt",
+    "encoding_bits": "000000 rs rt rd 00000 100110",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按位异或",
+    "rtl": "R[rd] = R[rs] XOR R[rt]。",
+    "other": "OP=000000 FUN=100110；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E02": {
+    "id": "E02",
+    "name": "srl",
+    "format": "srl $rd, $rt, shamt",
+    "encoding_bits": "000000 00000 rt rd shamt 000010",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "逻辑右移",
+    "rtl": "R[rd] = R[rt] 逻辑右移 shamt 位，高位补 0；shamt 为 0～31。",
+    "other": "OP=000000 FUN=000010；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E03": {
+    "id": "E03",
+    "name": "sltu",
+    "format": "sltu $rd, $rs, $rt",
+    "encoding_bits": "000000 rs rt rd 00000 101011",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "无符号比较",
+    "rtl": "按 32 位无符号数比较；R[rs] < R[rt] 时 R[rd]=1，否则 R[rd]=0。",
+    "other": "OP=000000 FUN=101011；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E04": {
+    "id": "E04",
+    "name": "movz",
+    "format": "movz $rd, $rs, $rt",
+    "encoding_bits": "000000 rs rt rd 00000 001010",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "条件传送",
+    "rtl": "若 R[rt]=0，则 R[rd]=旧 R[rs]；否则不写任何寄存器，RegWrite 必须为 0。",
+    "other": "OP=000000 FUN=001010；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 630,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 222,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 196,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 196,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 196,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E05": {
+    "id": "E05",
+    "name": "wsbh",
+    "format": "wsbh $rd, $rt",
+    "encoding_bits": "000000 00000 rt rd 00000 101100",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "半字内部交换相邻字节",
+    "rtl": "把源值的四个字节 A B C D（从高到低）变为 B A D C，写入 rd。例如 0x12345678 变为 0x34127856；不是四字节倒序。",
+    "other": "OP=000000 FUN=101100；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E06": {
+    "id": "E06",
+    "name": "gray",
+    "format": "gray $rd, $rs",
+    "encoding_bits": "000000 rs 00000 rd 00000 101101",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "整字格雷码转换",
+    "rtl": "R[rd] = R[rs] XOR (R[rs] 逻辑右移 1 位)。",
+    "other": "OP=000000 FUN=101101；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E07": {
+    "id": "E07",
+    "name": "clo",
+    "format": "clo $rd, $rs",
+    "encoding_bits": "000000 rs 00000 rd 00000 110000",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "前导一计数",
+    "rtl": "从 R[rs] 的 bit31 向 bit0 连续统计 1，遇到首个 0 停止，计数写入 rd。全 1 返回 32；最高位为 0 返回 0。",
+    "other": "OP=000000 FUN=110000；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E08": {
+    "id": "E08",
+    "name": "flog2",
+    "format": "flog2 $rd, $rs",
+    "encoding_bits": "000000 rs 00000 rd 00000 110001",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "无符号整数对数",
+    "rtl": "若 R[rs]=0，R[rd]=0；否则 R[rd]=floor(log2(unsigned(R[rs])))，即最高有效 1 的位编号（0～31）。0x80000000 返回 31。",
+    "other": "OP=000000 FUN=110001；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E09": {
+    "id": "E09",
+    "name": "slo",
+    "format": "slo $rd, $rt, shamt",
+    "encoding_bits": "000000 00000 rt rd shamt 110010",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "左移并在低位补一",
+    "rtl": "R[rd] = (旧 R[rt] << shamt) OR (2^shamt-1)，截取低 32 位。shamt=0 时原样传送；补一掩码为 0。",
+    "other": "OP=000000 FUN=110010；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E10": {
+    "id": "E10",
+    "name": "qaq",
+    "format": "qaq $rd, $rs, $rt",
+    "encoding_bits": "000000 rs rt rd 00000 110011",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "平方后按位与",
+    "rtl": "分别计算 R[rs] 和 R[rt] 的平方，各取低 32 位，再按位与，结果写入 rd。乘法溢出丢弃高位。",
+    "other": "OP=000000 FUN=110011；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E11": {
+    "id": "E11",
+    "name": "ssze",
+    "format": "ssze $rd, $rs, $rt",
+    "encoding_bits": "000000 rs rt rd 00000 110100",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "后导零比较",
+    "rtl": "定义 tz(x) 为从 bit0 开始连续的 0 的个数，tz(0)=32。若 tz(R[rs])=tz(R[rt])，则 R[rd]=1；否则 R[rd]=R[rs]-R[rt]，按低 32 位回绕。",
+    "other": "OP=000000 FUN=110100；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "edges",
+        "label": "01",
+        "title": "边界",
+        "cycles": 548,
+        "finish_pc": 0
+      },
+      {
+        "id": "alias_and_zero",
+        "label": "02",
+        "title": "别名与 $0",
+        "cycles": 158,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_1",
+        "label": "03",
+        "title": "随机 1",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_2",
+        "label": "04",
+        "title": "随机 2",
+        "cycles": 142,
+        "finish_pc": 0
+      },
+      {
+        "id": "random_3",
+        "label": "05",
+        "title": "随机 3",
+        "cycles": 142,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E12": {
+    "id": "E12",
+    "name": "balr",
+    "format": "balr $rt, label",
+    "encoding_bits": "110000 00000 rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "相对跳转并写指定链接寄存器",
+    "rtl": "无条件执行 nextPC=PC+4+(SE16(imm)<<2)，同时 R[rt]=PC+4。rs 字段固定为 0。rt=0 时仍跳转，但 $0 不变。",
+    "other": "OP=110000 FUN=None；共 16 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "forward_link_0",
+        "label": "01",
+        "title": "forward_link_0",
+        "cycles": 64,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-1_r0",
+        "label": "02",
+        "title": "offset_-1_r0",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-2_r0",
+        "label": "03",
+        "title": "offset_-2_r0",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_0_r0",
+        "label": "04",
+        "title": "offset_0_r0",
+        "cycles": 3,
+        "finish_pc": 0
+      },
+      {
+        "id": "forward_link_1",
+        "label": "05",
+        "title": "forward_link_1",
+        "cycles": 64,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-1_r1",
+        "label": "06",
+        "title": "offset_-1_r1",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-2_r1",
+        "label": "07",
+        "title": "offset_-2_r1",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_0_r1",
+        "label": "08",
+        "title": "offset_0_r1",
+        "cycles": 3,
+        "finish_pc": 0
+      },
+      {
+        "id": "forward_link_2",
+        "label": "09",
+        "title": "forward_link_2",
+        "cycles": 64,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-1_r2",
+        "label": "10",
+        "title": "offset_-1_r2",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-2_r2",
+        "label": "11",
+        "title": "offset_-2_r2",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_0_r2",
+        "label": "12",
+        "title": "offset_0_r2",
+        "cycles": 3,
+        "finish_pc": 0
+      },
+      {
+        "id": "forward_link_31",
+        "label": "13",
+        "title": "forward_link_31",
+        "cycles": 64,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-1_r31",
+        "label": "14",
+        "title": "offset_-1_r31",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-2_r31",
+        "label": "15",
+        "title": "offset_-2_r31",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_0_r31",
+        "label": "16",
+        "title": "offset_0_r31",
+        "cycles": 3,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E13": {
+    "id": "E13",
+    "name": "bltzalr",
+    "format": "bltzalr $rs, $rt, label",
+    "encoding_bits": "110001 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "负数条件跳转并链接",
+    "rtl": "按有符号数判断旧 R[rs]<0：成立时跳到 PC+4+(SE16(imm)<<2)，并写 R[rt]=PC+4；不成立时 nextPC=PC+4，且不写寄存器。本题明确规定仅跳转时链接。",
+    "other": "OP=110001 FUN=None；共 33 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "condition_00_forward",
+        "label": "01",
+        "title": "condition_00_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_backward",
+        "label": "02",
+        "title": "condition_00_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_self",
+        "label": "03",
+        "title": "condition_00_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_forward",
+        "label": "04",
+        "title": "condition_01_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_backward",
+        "label": "05",
+        "title": "condition_01_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_self",
+        "label": "06",
+        "title": "condition_01_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_forward",
+        "label": "07",
+        "title": "condition_02_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_backward",
+        "label": "08",
+        "title": "condition_02_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_self",
+        "label": "09",
+        "title": "condition_02_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_forward",
+        "label": "10",
+        "title": "condition_03_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_backward",
+        "label": "11",
+        "title": "condition_03_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_self",
+        "label": "12",
+        "title": "condition_03_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_forward",
+        "label": "13",
+        "title": "condition_04_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_backward",
+        "label": "14",
+        "title": "condition_04_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_self",
+        "label": "15",
+        "title": "condition_04_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_forward",
+        "label": "16",
+        "title": "condition_05_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_backward",
+        "label": "17",
+        "title": "condition_05_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_self",
+        "label": "18",
+        "title": "condition_05_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_forward",
+        "label": "19",
+        "title": "condition_06_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_backward",
+        "label": "20",
+        "title": "condition_06_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_self",
+        "label": "21",
+        "title": "condition_06_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_forward",
+        "label": "22",
+        "title": "condition_07_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_backward",
+        "label": "23",
+        "title": "condition_07_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_self",
+        "label": "24",
+        "title": "condition_07_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_forward",
+        "label": "25",
+        "title": "condition_08_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_backward",
+        "label": "26",
+        "title": "condition_08_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_self",
+        "label": "27",
+        "title": "condition_08_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_forward",
+        "label": "28",
+        "title": "condition_09_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_backward",
+        "label": "29",
+        "title": "condition_09_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_self",
+        "label": "30",
+        "title": "condition_09_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "link_register_0",
+        "label": "31",
+        "title": "link_register_0",
+        "cycles": 4,
+        "finish_pc": 0
+      },
+      {
+        "id": "link_register_1",
+        "label": "32",
+        "title": "link_register_1",
+        "cycles": 4,
+        "finish_pc": 0
+      },
+      {
+        "id": "link_register_31",
+        "label": "33",
+        "title": "link_register_31",
+        "cycles": 4,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E14": {
+    "id": "E14",
+    "name": "bezal",
+    "format": "bezal $rs, $rt",
+    "encoding_bits": "000000 rs rt 00000 00000 110101",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "零值条件寄存器跳转并链接",
+    "rtl": "若旧 R[rt]=0，则 nextPC=旧 R[rs]，并写 R[31]=PC+4；否则顺序执行且不写寄存器。即使 rs=31，跳转目标也必须取写回之前的值。",
+    "other": "OP=000000 FUN=110101；共 6 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "rs1_condition_00000000",
+        "label": "01",
+        "title": "rs1_condition_00000000",
+        "cycles": 68,
+        "finish_pc": 0
+      },
+      {
+        "id": "rs1_condition_00000001",
+        "label": "02",
+        "title": "rs1_condition_00000001",
+        "cycles": 69,
+        "finish_pc": 0
+      },
+      {
+        "id": "rs1_condition_ffffffff",
+        "label": "03",
+        "title": "rs1_condition_ffffffff",
+        "cycles": 69,
+        "finish_pc": 0
+      },
+      {
+        "id": "rs31_condition_00000000",
+        "label": "04",
+        "title": "rs31_condition_00000000",
+        "cycles": 68,
+        "finish_pc": 0
+      },
+      {
+        "id": "rs31_condition_00000001",
+        "label": "05",
+        "title": "rs31_condition_00000001",
+        "cycles": 69,
+        "finish_pc": 0
+      },
+      {
+        "id": "rs31_condition_ffffffff",
+        "label": "06",
+        "title": "rs31_condition_ffffffff",
+        "cycles": 69,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E15": {
+    "id": "E15",
+    "name": "booez",
+    "format": "booez $rs, $rt, label",
+    "encoding_bits": "110010 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按两段位数奇偶性分支",
+    "rtl": "若旧 R[rs] 的低 16 位中 1 的个数为奇数，且旧 R[rt] 的高 16 位中 0 的个数为偶数，则按 beq 的方式相对跳转；否则顺序执行。0 个也属于偶数。不写 GRF 和 DM。",
+    "other": "OP=110010 FUN=None；共 30 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "condition_00_forward",
+        "label": "01",
+        "title": "condition_00_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_backward",
+        "label": "02",
+        "title": "condition_00_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_self",
+        "label": "03",
+        "title": "condition_00_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_forward",
+        "label": "04",
+        "title": "condition_01_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_backward",
+        "label": "05",
+        "title": "condition_01_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_self",
+        "label": "06",
+        "title": "condition_01_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_forward",
+        "label": "07",
+        "title": "condition_02_forward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_backward",
+        "label": "08",
+        "title": "condition_02_backward",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_self",
+        "label": "09",
+        "title": "condition_02_self",
+        "cycles": 15,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_forward",
+        "label": "10",
+        "title": "condition_03_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_backward",
+        "label": "11",
+        "title": "condition_03_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_self",
+        "label": "12",
+        "title": "condition_03_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_forward",
+        "label": "13",
+        "title": "condition_04_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_backward",
+        "label": "14",
+        "title": "condition_04_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_self",
+        "label": "15",
+        "title": "condition_04_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_forward",
+        "label": "16",
+        "title": "condition_05_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_backward",
+        "label": "17",
+        "title": "condition_05_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_self",
+        "label": "18",
+        "title": "condition_05_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_forward",
+        "label": "19",
+        "title": "condition_06_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_backward",
+        "label": "20",
+        "title": "condition_06_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_self",
+        "label": "21",
+        "title": "condition_06_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_forward",
+        "label": "22",
+        "title": "condition_07_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_backward",
+        "label": "23",
+        "title": "condition_07_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_self",
+        "label": "24",
+        "title": "condition_07_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_forward",
+        "label": "25",
+        "title": "condition_08_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_backward",
+        "label": "26",
+        "title": "condition_08_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_self",
+        "label": "27",
+        "title": "condition_08_self",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_forward",
+        "label": "28",
+        "title": "condition_09_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_backward",
+        "label": "29",
+        "title": "condition_09_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_self",
+        "label": "30",
+        "title": "condition_09_self",
+        "cycles": 7,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E16": {
+    "id": "E16",
+    "name": "cwp",
+    "format": "cwp $rs, $rt, imm16",
+    "encoding_bits": "110011 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "由立即数与 PC 比较选择写入目标",
+    "rtl": "令 u=ZE16(imm)。按无符号数比较 (u<<8) 与当前指令的 PC：严格大于时 R[rs]=u，否则 R[rt]=u。写入数据始终是 u，不是 u<<8，也不是 PC+4。",
+    "other": "OP=110011 FUN=None；共 76 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "imm_00_0000",
+        "label": "01",
+        "title": "imm_00_0000",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_01_0001",
+        "label": "02",
+        "title": "imm_01_0001",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_02_002f",
+        "label": "03",
+        "title": "imm_02_002f",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_03_0030",
+        "label": "04",
+        "title": "imm_03_0030",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_04_0031",
+        "label": "05",
+        "title": "imm_04_0031",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_05_0032",
+        "label": "06",
+        "title": "imm_05_0032",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_06_0033",
+        "label": "07",
+        "title": "imm_06_0033",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_07_0034",
+        "label": "08",
+        "title": "imm_07_0034",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_08_0035",
+        "label": "09",
+        "title": "imm_08_0035",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_09_7fff",
+        "label": "10",
+        "title": "imm_09_7fff",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_10_8000",
+        "label": "11",
+        "title": "imm_10_8000",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_11_ffff",
+        "label": "12",
+        "title": "imm_11_ffff",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_12_0000",
+        "label": "13",
+        "title": "imm_12_0000",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_13_0001",
+        "label": "14",
+        "title": "imm_13_0001",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_14_0002",
+        "label": "15",
+        "title": "imm_14_0002",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_15_0003",
+        "label": "16",
+        "title": "imm_15_0003",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_16_0004",
+        "label": "17",
+        "title": "imm_16_0004",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_17_0005",
+        "label": "18",
+        "title": "imm_17_0005",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_18_0006",
+        "label": "19",
+        "title": "imm_18_0006",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_19_0007",
+        "label": "20",
+        "title": "imm_19_0007",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_20_0008",
+        "label": "21",
+        "title": "imm_20_0008",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_21_0009",
+        "label": "22",
+        "title": "imm_21_0009",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_22_000a",
+        "label": "23",
+        "title": "imm_22_000a",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_23_000b",
+        "label": "24",
+        "title": "imm_23_000b",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_24_000c",
+        "label": "25",
+        "title": "imm_24_000c",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_25_000d",
+        "label": "26",
+        "title": "imm_25_000d",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_26_000e",
+        "label": "27",
+        "title": "imm_26_000e",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_27_000f",
+        "label": "28",
+        "title": "imm_27_000f",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_28_0010",
+        "label": "29",
+        "title": "imm_28_0010",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_29_0011",
+        "label": "30",
+        "title": "imm_29_0011",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_30_0012",
+        "label": "31",
+        "title": "imm_30_0012",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_31_0013",
+        "label": "32",
+        "title": "imm_31_0013",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_32_0014",
+        "label": "33",
+        "title": "imm_32_0014",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_33_0015",
+        "label": "34",
+        "title": "imm_33_0015",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_34_0016",
+        "label": "35",
+        "title": "imm_34_0016",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_35_0017",
+        "label": "36",
+        "title": "imm_35_0017",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_36_0018",
+        "label": "37",
+        "title": "imm_36_0018",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_37_0019",
+        "label": "38",
+        "title": "imm_37_0019",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_38_001a",
+        "label": "39",
+        "title": "imm_38_001a",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_39_001b",
+        "label": "40",
+        "title": "imm_39_001b",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_40_001c",
+        "label": "41",
+        "title": "imm_40_001c",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_41_001d",
+        "label": "42",
+        "title": "imm_41_001d",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_42_001e",
+        "label": "43",
+        "title": "imm_42_001e",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_43_001f",
+        "label": "44",
+        "title": "imm_43_001f",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_44_0020",
+        "label": "45",
+        "title": "imm_44_0020",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_45_0021",
+        "label": "46",
+        "title": "imm_45_0021",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_46_0022",
+        "label": "47",
+        "title": "imm_46_0022",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_47_0023",
+        "label": "48",
+        "title": "imm_47_0023",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_48_0024",
+        "label": "49",
+        "title": "imm_48_0024",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_49_0025",
+        "label": "50",
+        "title": "imm_49_0025",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_50_0026",
+        "label": "51",
+        "title": "imm_50_0026",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_51_0027",
+        "label": "52",
+        "title": "imm_51_0027",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_52_0028",
+        "label": "53",
+        "title": "imm_52_0028",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_53_0029",
+        "label": "54",
+        "title": "imm_53_0029",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_54_002a",
+        "label": "55",
+        "title": "imm_54_002a",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_55_002b",
+        "label": "56",
+        "title": "imm_55_002b",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_56_002c",
+        "label": "57",
+        "title": "imm_56_002c",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_57_002d",
+        "label": "58",
+        "title": "imm_57_002d",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_58_002e",
+        "label": "59",
+        "title": "imm_58_002e",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_59_002f",
+        "label": "60",
+        "title": "imm_59_002f",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_60_0030",
+        "label": "61",
+        "title": "imm_60_0030",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_61_0031",
+        "label": "62",
+        "title": "imm_61_0031",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_62_0032",
+        "label": "63",
+        "title": "imm_62_0032",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_63_0033",
+        "label": "64",
+        "title": "imm_63_0033",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_64_0034",
+        "label": "65",
+        "title": "imm_64_0034",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_65_0035",
+        "label": "66",
+        "title": "imm_65_0035",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_66_0036",
+        "label": "67",
+        "title": "imm_66_0036",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_67_0037",
+        "label": "68",
+        "title": "imm_67_0037",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_68_0038",
+        "label": "69",
+        "title": "imm_68_0038",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_69_0039",
+        "label": "70",
+        "title": "imm_69_0039",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_70_003a",
+        "label": "71",
+        "title": "imm_70_003a",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_71_003b",
+        "label": "72",
+        "title": "imm_71_003b",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_72_003c",
+        "label": "73",
+        "title": "imm_72_003c",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_73_003d",
+        "label": "74",
+        "title": "imm_73_003d",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_74_003e",
+        "label": "75",
+        "title": "imm_74_003e",
+        "cycles": 16,
+        "finish_pc": 0
+      },
+      {
+        "id": "imm_75_003f",
+        "label": "76",
+        "title": "imm_75_003f",
+        "cycles": 16,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E17": {
+    "id": "E17",
+    "name": "bgc",
+    "format": "bgc $rs, $rt, label",
+    "encoding_bits": "110100 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "两位分组格雷码计数分支",
+    "rtl": "把旧 R[rs] 分成 16 组两位数，每组按 00→00、01→01、10→11、11→10 转为格雷码。统计转换后总共多少个 1；总数严格大于 rt 字段的整数值（0～31）时，按 beq 的方式相对跳转。不读取 R[rt] 作为阈值，不写 GRF/DM。",
+    "other": "OP=110100 FUN=None；共 30 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "condition_00_forward",
+        "label": "01",
+        "title": "condition_00_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_backward",
+        "label": "02",
+        "title": "condition_00_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_00_self",
+        "label": "03",
+        "title": "condition_00_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_forward",
+        "label": "04",
+        "title": "condition_01_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_backward",
+        "label": "05",
+        "title": "condition_01_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_01_self",
+        "label": "06",
+        "title": "condition_01_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_forward",
+        "label": "07",
+        "title": "condition_02_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_backward",
+        "label": "08",
+        "title": "condition_02_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_02_self",
+        "label": "09",
+        "title": "condition_02_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_forward",
+        "label": "10",
+        "title": "condition_03_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_backward",
+        "label": "11",
+        "title": "condition_03_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_03_self",
+        "label": "12",
+        "title": "condition_03_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_forward",
+        "label": "13",
+        "title": "condition_04_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_backward",
+        "label": "14",
+        "title": "condition_04_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_04_self",
+        "label": "15",
+        "title": "condition_04_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_forward",
+        "label": "16",
+        "title": "condition_05_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_backward",
+        "label": "17",
+        "title": "condition_05_backward",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_05_self",
+        "label": "18",
+        "title": "condition_05_self",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_forward",
+        "label": "19",
+        "title": "condition_06_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_backward",
+        "label": "20",
+        "title": "condition_06_backward",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_06_self",
+        "label": "21",
+        "title": "condition_06_self",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_forward",
+        "label": "22",
+        "title": "condition_07_forward",
+        "cycles": 13,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_backward",
+        "label": "23",
+        "title": "condition_07_backward",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_07_self",
+        "label": "24",
+        "title": "condition_07_self",
+        "cycles": 9,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_forward",
+        "label": "25",
+        "title": "condition_08_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_backward",
+        "label": "26",
+        "title": "condition_08_backward",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_08_self",
+        "label": "27",
+        "title": "condition_08_self",
+        "cycles": 17,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_forward",
+        "label": "28",
+        "title": "condition_09_forward",
+        "cycles": 11,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_backward",
+        "label": "29",
+        "title": "condition_09_backward",
+        "cycles": 7,
+        "finish_pc": 0
+      },
+      {
+        "id": "condition_09_self",
+        "label": "30",
+        "title": "condition_09_self",
+        "cycles": 7,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E18": {
+    "id": "E18",
+    "name": "csws",
+    "format": "csws $rt, offset($base)",
+    "encoding_bits": "110101 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按符号选择存储数据",
+    "rtl": "EA=旧 R[base]+SE16(offset)。若旧 R[rt] 的 bit31=1，Mem32[EA]=旧 R[rt]；否则 Mem32[EA]=0。两种情况都要写内存，MemWrite 均为 1；不写 GRF。",
+    "other": "OP=110101 FUN=None；共 4 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 356,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 236,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "both_paths_overwrite_nonzero",
+        "label": "04",
+        "title": "两路覆盖非零",
+        "cycles": 166,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E19": {
+    "id": "E19",
+    "name": "lwor",
+    "format": "lwor $rt, offset($base)",
+    "encoding_bits": "110110 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "带寄存器编号偏移的加载",
+    "rtl": "EA=(旧 R[base]+SE16(offset)+4*rt) AND 0x0000007c；rt 在地址公式中是指令字段的整数编号，不是 R[rt]。R[rt]=Mem32[EA]。先完成加法的低 32 位回绕，再按位与。",
+    "other": "OP=110110 FUN=None；共 4 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 356,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 236,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "mask_and_wrap",
+        "label": "04",
+        "title": "掩码与回绕",
+        "cycles": 582,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E20": {
+    "id": "E20",
+    "name": "lbi",
+    "format": "lbi $rt, offset($base)",
+    "encoding_bits": "110111 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "加载并替换一个对应位置字节",
+    "rtl": "EA=旧 R[base]+SE16(offset)，k=EA AND 3，W=Mem32[EA AND 0xfffffffc]，mask=0xff<<(8*k)。R[rt]=(旧 R[rt] AND ~mask) OR (W AND mask)。仅替换第 k 个字节，其他三个字节保持不变；不做符号扩展。",
+    "other": "OP=110111 FUN=None；共 4 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 308,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "preserve_three_bytes_and_alias",
+        "label": "04",
+        "title": "保留三字节与别名",
+        "cycles": 121,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E21": {
+    "id": "E21",
+    "name": "lwso",
+    "format": "lwso $rt, offset($base)",
+    "encoding_bits": "111000 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "由源寄存器及数据奇偶性选择写入目标",
+    "rtl": "先取 v=旧 R[rt]，h=v AND 15，left=(v<<h) AND 31，right=(v逻辑右移h) AND 31。EA=旧 R[base]+SE16(offset)，W=Mem32[EA]。W 的 bit0=1 时写 R[left]=W，否则写 R[right]=W。计算目标编号时一律使用写回前的 v。",
+    "other": "OP=111000 FUN=None；共 6 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 356,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 236,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "destination_parity_0",
+        "label": "04",
+        "title": "目的奇偶 0",
+        "cycles": 297,
+        "finish_pc": 0
+      },
+      {
+        "id": "destination_parity_1",
+        "label": "05",
+        "title": "目的奇偶 1",
+        "cycles": 297,
+        "finish_pc": 0
+      },
+      {
+        "id": "base_equals_rt",
+        "label": "06",
+        "title": "基址等于 rt",
+        "cycles": 108,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E22": {
+    "id": "E22",
+    "name": "jas",
+    "format": "jas label",
+    "encoding_bits": "111001 target26",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "跳转并把返回地址存入内存",
+    "rtl": "Mem32[旧 R[29]]=PC+4；nextPC={(PC+4)[31:28],target[25:0],00}。不写 GRF，不修改 R[29]。本练习保留完整 PC 和 IM 范围，不采用旧记录的 PC 对 128 取模。",
+    "other": "OP=111001 FUN=None；共 5 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "stack_0",
+        "label": "01",
+        "title": "栈偏移 0",
+        "cycles": 67,
+        "finish_pc": 0
+      },
+      {
+        "id": "stack_4",
+        "label": "02",
+        "title": "栈偏移 4",
+        "cycles": 67,
+        "finish_pc": 0
+      },
+      {
+        "id": "stack_12284",
+        "label": "03",
+        "title": "栈偏移 12284",
+        "cycles": 67,
+        "finish_pc": 0
+      },
+      {
+        "id": "self_jump",
+        "label": "04",
+        "title": "自跳转",
+        "cycles": 8,
+        "finish_pc": 0
+      },
+      {
+        "id": "far_target",
+        "label": "05",
+        "title": "远目标",
+        "cycles": 4,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E23": {
+    "id": "E23",
+    "name": "bal",
+    "format": "bal label",
+    "encoding_bits": "000001 00000 10001 imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "无条件分支并链接到 $31",
+    "rtl": "nextPC=PC+4+(SE16(imm)<<2)，同时 R[31]=PC+4。rs 固定 00000，rt 字段固定 10001。",
+    "other": "OP=000001 FUN=None；共 4 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "forward_link_17",
+        "label": "01",
+        "title": "forward_link_17",
+        "cycles": 64,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-1_r17",
+        "label": "02",
+        "title": "offset_-1_r17",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_-2_r17",
+        "label": "03",
+        "title": "offset_-2_r17",
+        "cycles": 12,
+        "finish_pc": 0
+      },
+      {
+        "id": "offset_0_r17",
+        "label": "04",
+        "title": "offset_0_r17",
+        "cycles": 3,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E24": {
+    "id": "E24",
+    "name": "lbu",
+    "format": "lbu $rt, offset($base)",
+    "encoding_bits": "100100 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "无符号字节加载",
+    "rtl": "EA=旧 R[base]+SE16(offset)，读取该字节并零扩展到 32 位，写入 R[rt]。",
+    "other": "OP=100100 FUN=None；共 3 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 308,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      }
+    ]
+  },
+  "E25": {
+    "id": "E25",
+    "name": "lb",
+    "format": "lb $rt, offset($base)",
+    "encoding_bits": "100000 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "有符号字节加载",
+    "rtl": "EA=旧 R[base]+SE16(offset)，读取该字节并按 bit7 符号扩展到 32 位，写入 R[rt]。",
+    "other": "OP=100000 FUN=None；共 3 组测试。",
+    "source": "P3 加指令练习包",
+    "stage": "P3",
+    "group": "practice",
+    "cases": [
+      {
+        "id": "lanes_and_offsets",
+        "label": "01",
+        "title": "字节通道与偏移",
+        "cycles": 260,
+        "finish_pc": 0
+      },
+      {
+        "id": "address_boundaries",
+        "label": "02",
+        "title": "地址边界",
+        "cycles": 308,
+        "finish_pc": 0
+      },
+      {
+        "id": "register_numbers",
+        "label": "03",
+        "title": "寄存器编号",
+        "cycles": 260,
+        "finish_pc": 0
+      }
+    ]
+  }
+}
