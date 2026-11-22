@@ -1,0 +1,742 @@
+{
+  "Q01": {
+    "id": "Q01",
+    "name": "eam",
+    "format": "eam rd, rs, rt",
+    "encoding_bits": "000000 rs rt rd 00000 110000",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "有符号取模与条件扩展",
+    "rtl": "x = 将 R[rs][15:0] 解释为16位补码有符号数\nt = x 对17的非负余数，0 <= t <= 16\nif R[rt][31] == 1:\n    R[rd] <- {16'h0000, t的16位表示}\nelse:\n    R[rd] <- {16'hffff, t的16位表示}\nnextPC <- P + 4",
+    "other": "例：R[1]=0x0000ffff、R[2]=0x80000000，eam $3,$1,$2 写入 0x00000010；若 R[2]=0，则写入 0xffff0010。 边界：x=0、17、-17 时 t=0，x=-1 时 t=16。一扩展固定补 1，不是符号扩展。本册固定采用回忆文字的版本 A；相反的扩展方向不适用于此练习。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q01",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "44ff530c619b3d0c58e0db4c1d5071aa2407d188b49123552f35c1fa837f6031"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "764e945590ff3322c7025dd81e0948067377465eccd6a23f1e114b5fe4db82cd"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "9ee347bb5f2dbbf932fd4ad7291b3abdf22f220e74c753e8f5913a9ef74aead9"
+      }
+    ]
+  },
+  "Q02": {
+    "id": "Q02",
+    "name": "cptl",
+    "format": "cptl rs, rt, offset",
+    "encoding_bits": "110000 rs rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "总是分支，条件选择链接目标",
+    "rtl": "c = 存在 i∈[0,12]，使 R[rs][i+5:i] == 6'b111111\nif c: R[rt] <- P + 4\nelse: R[31] <- P + 4\nnextPC <- P + 4 + B(offset)",
+    "other": "例：P=0x3000、R[1]=0x3f，cptl $1,$7,2 写 R[7]=0x3004、跳至 0x300c。R[1]=0x1f 时改写 $31，跳转目标相同。 边界：只查低 18 位的 13 个窗口，窗口可重叠。六个 1 完全位于 bit23～18 不成立。rt=0 且条件为真时丢弃链接；rs=rt 时先用旧值判断。offset 可为负或 0，无延迟槽。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q02",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "56e0f5154a6302949eb66dc145efce5c813d14c834ee9db1bc13ba8c60c9cb08"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "4bd4adea7f6c49064a4defc385338540463d675c450e2fc1c90e216ed4203e52"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "635d473855f352e200bbc27782dae3874e47a88d4bab2cfef0f857d6c5a0da79"
+      }
+    ]
+  },
+  "Q03": {
+    "id": "Q03",
+    "name": "olw",
+    "format": "olw rt, offset(base)",
+    "encoding_bits": "110001 base rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "满足 0*1* 位模式时加载",
+    "rtl": "EA = R[base] + B(offset)\nd = Mem32[EA]\nc = d 从bit31到bit0具有“若干0后接若干1”的形式\nif c: R[rt] <- d\nelse: 不写任何寄存器\nnextPC <- P + 4",
+    "other": "例：R[1]=0x20、offset=2，读地址 0x28。字为 0x00000007 时写回；为 0x00000005 时不写、无日志。 边界：0、0xffffffff 均满足条件；0 段或 1 段可为空。等价判断为 (d & (d+1)) == 0，d+1 按 32 位回绕。读出的内存数据参与 GRF 写使能判断。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q03",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "ded57656e984a215d31bec6bd530d7acc35badca477baa1c0f669f56ee2c5aea"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "3257ddd25a84d24774d334327adf6432a84a5a3819898bb1372d52f3c8e0cb61"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "1b04fec73647d62ce86745871ec549027afda6153b4a678de460821cff27448b"
+      }
+    ]
+  },
+  "Q04": {
+    "id": "Q04",
+    "name": "hmo",
+    "format": "hmo rd, rs, rt",
+    "encoding_bits": "000000 rs rt rd 00000 110001",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按 1 的个数选择寄存器编号",
+    "rtl": "if pop(R[rs]) > pop(R[rt]): R[rd] <- rs编号零扩展到32位\nelse: R[rd] <- rt编号零扩展到32位\nnextPC <- P + 4",
+    "other": "例：rs=4、rt=9、rd=3，R[4]=7、R[9]=0x80000000，R[3]=4；若 R[9]=0x0b，双方均有三个 1，R[3]=9。 边界：相等时选 rt，计数含全部 32 位，写入的是编号，结果范围 0～31。rd 与任一源重合时仍比较旧值。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q04",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "dc9e2eacadf51f0f7c5e76e552405c4947956d11e71ba966ac54f37a2e16ff4f"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "e1012a113c81b1e4c5d6f10777b93723cb39af8bad7f089ef7f72dfc5dda1fc1"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "b79a093b28ef6ec012dd4282cfc9f56b48506216b4845e3b56cf1a532900964a"
+      }
+    ]
+  },
+  "Q05": {
+    "id": "Q05",
+    "name": "bnoal",
+    "format": "bnoal rs, rt, offset",
+    "encoding_bits": "110010 rs rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "有符号加法不溢出时分支并链接",
+    "rtl": "a = signed32(R[rs]); b = signed32(R[rt])\ns = a+b，先按数学整数计算\nc = -2147483648 <= s <= 2147483647\nif c:\n    R[31] <- P + 4\n    nextPC <- P + 4 + B(offset)\nelse:\n    不写任何寄存器\n    nextPC <- P + 4",
+    "other": "例：P=0x3000、R[1]=0x7fffffff、R[2]=1、offset=2，溢出，不跳、不链接。R[1]=0xffffffff、R[2]=1 时和为 0，不溢出，$31=0x3004、目标=0x300c。 边界：负数加负数也可能溢出；异号相加不溢出。和本身不写回，不触发异常。源编号为 31 时，先读旧 $31 再链接。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q05",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "4b338f55359bc8976889f8a9c4668f6fe3b1a8f4df6f3c4dbdcd7f2296c308ea"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "6c13fa7c5d5ec07ed460a47a1749c86007ba9c9f907034744ad3d80c858ec281"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "1444c815430ffa4af2c97abcede02ae44f7db7df34f242a82c37b965ecfde74c"
+      }
+    ]
+  },
+  "Q06": {
+    "id": "Q06",
+    "name": "sgray",
+    "format": "sgray rt, offset(base)",
+    "encoding_bits": "110011 base rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "分组格雷码条件字节存储",
+    "rtl": "EA = R[base] + SE16(offset)\nk = EA[1:0]\nm = 旧 Mem8[EA]\nfor j=0..3: t[j] = g8(R[rt][8*j+7:8*j])\nif m等于t[0]、t[1]、t[2]、t[3]中至少一个:\n    Mem8[EA] <- t[k]\nelse:\n    Mem8[EA] <- 8'hff\nnextPC <- P + 4",
+    "other": "例：R[rt]=0x03020100，t[0..3]=00,01,03,02。旧 Mem32[0]=0x44332200、EA=1，目标旧字节 0x22 无匹配，结果=0x4433ff00。旧字为 0x44330300 时，0x03 有匹配，写 t[1]=0x01，结果=0x44330100。 边界：可匹配任一候选，不要求匹配 t[k]。转换和比较都取旧值。不是对整字节统一执行一次 b^(b>>1)，二位组之间不互相影响。不写 GRF。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q06",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "9d4bcc02bfdbdd0aefb8c82e39f88f2ceef311dcbe94ae47ee6178526360c1f1"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "dc63f0cda6b8d5b098dfe06d106224e14691e94462337e1050647784066dd089"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "a76e49f8ede88292acffc145564e3b10a228e2f34f37845b31ab742ffb3ef021"
+      }
+    ]
+  },
+  "Q07": {
+    "id": "Q07",
+    "name": "rlb",
+    "format": "rlb rt, rs, imm",
+    "encoding_bits": "110100 rs rt imm16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "低 imm 位按位取反",
+    "rtl": "mask = (2^imm)-1，作为32位数；imm=0时mask=0\nR[rt] <- R[rs] XOR mask\nnextPC <- P + 4",
+    "other": "例：R[1]=0x12345678，rlb $2,$1,4 得 0x12345677。imm=0 原样复制；imm=31、源为 0 时结果=0x7fffffff。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q07",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "8fa24aa3ac81c61e264839a10ae712f6a116857a585d6afc80396f98d140a8df"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "52feffbac47eb8e588f5319a08ddf2a1ac0f4730d40c9ab31e74f8be9dd14218"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "77c874aa381900ef8edb4a181861f6fd43d1bccf024ee8910ea679c09327b4e0"
+      }
+    ]
+  },
+  "Q08": {
+    "id": "Q08",
+    "name": "bnezalc",
+    "format": "bnezalc rs, offset",
+    "encoding_bits": "000001 rs 10011 offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "非零时分支并链接",
+    "rtl": "if R[rs] != 0:\n    R[31] <- P + 4\n    nextPC <- P + 4 + B(offset)\nelse:\n    不写任何寄存器\n    nextPC <- P + 4",
+    "other": "例：P=0x3000、R[1]=1、offset=2，写 $31=0x3004、跳至 0x300c；源为 0 时顺序执行，$31 保持。 边界：正数、负数都属于非零。无延迟槽，链接值为 P+4。rs=31 用旧值判断。固定子操作码 10011 必须参与译码。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q08",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "afc9403b2d50af332748114c0cce746154a3370e44ee7a113473c18fbd9521aa"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "60c3b0f2c5f38e8d91468fcb6c884deba01a35fc148b1de602f791cdcdd8a940"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "e4a33f5d19b31b4445c9f1b2626aed78c9656be7e5b63a52f24fc26e36049b85"
+      }
+    ]
+  },
+  "Q09": {
+    "id": "Q09",
+    "name": "lwrr",
+    "format": "lwrr rt, offset(base)",
+    "encoding_bits": "110101 base rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "加载包含字并按字节循环右移",
+    "rtl": "EA = R[base] + SE16(offset)\nk = EA[1:0]\nd = Mem32[align4(EA)]\nR[rt] <- ROR(d,8*k)\nnextPC <- P + 4",
+    "other": "边界：只读一个包含字后旋转，不跨字读取；k=0 不移位。rt=base 先用旧值算地址。不写内存。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q09",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "615a9358819de78fd9e441de539d3cadeefc5f17fc5061b7199f4a95f10d0c8d"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "19b38d27e77d3d109bfde0a0d386363ea0c217d157f755239a0d3952dd74dba1"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "2cb8bdcb8ec33beed3f34d1cad1d3f8c4fcdfa6066584443d960f469666ca5b1"
+      }
+    ]
+  },
+  "Q10": {
+    "id": "Q10",
+    "name": "bsoal",
+    "format": "bsoal rs, offset",
+    "encoding_bits": "110110 rs 00000 offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "1 的个数为奇数时分支并链接",
+    "rtl": "if pop(R[rs]) mod 2 == 1:\n    R[31] <- P + 4\n    nextPC <- P + 4 + B(offset)\nelse:\n    不写任何寄存器\n    nextPC <- P + 4",
+    "other": "例：源为 8，有一个 1，成立；源为 5，有两个 1，不成立。P=0x3000、offset=2、成立时，$31=0x3004、目标=0x300c。 边界：0 有零个 1，全 1 有 32 个 1，均不跳、不链接。判断的是 1 的个数，不是数值奇偶。rt 字段固定为 0。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q10",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "229f8e98e0c31690b9554f4e256b4160a04de5dc9bfbd86579a803880c8cbb64"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "98e337e7ba4b231d20d99ba59c7b4638f4f9e2f32d4743459bab5cde7f41da5c"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "6b6809d355147e13598153b4193fd0a67d77aa394f77319a0fcc929a60d9c756"
+      }
+    ]
+  },
+  "Q11": {
+    "id": "Q11",
+    "name": "xor",
+    "format": "xor rd, rs, rt",
+    "encoding_bits": "000000 rs rt rd 00000 100110",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按位异或",
+    "rtl": "R[rd] <- R[rs] XOR R[rt]\nnextPC <- P + 4",
+    "other": "例：0x0000f0f0 XOR 0x00003333 = 0x0000c3c3。任意 x 与自己异或为 0，与 0 异或为 x。rd=rs、rd=rt、rd=0 均合法。不修改内存。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q11",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "fab2069930557fc1c51602d88234cab5738b42d7a5bec95591637eb9af751de7"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "9cde6473724fe473e7f188f1a1fbd781c92f8d21d8e60b1c6ddd2ddcb01200f2"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "066b48e0ba079f09aed3f2c981d375c90adbe80c68df897fa4826681834a2fbe"
+      }
+    ]
+  },
+  "Q12": {
+    "id": "Q12",
+    "name": "swrr",
+    "format": "swrr rt, offset(base)",
+    "encoding_bits": "110111 base rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "按地址低位旋转后存储完整字",
+    "rtl": "EA = R[base] + SE16(offset)\nk = EA[1:0]\nMem32[align4(EA)] <- ROR(R[rt],8*k)\nnextPC <- P + 4",
+    "other": "例：R[rt]=0x12345678、EA=5，向字节地址 4 写入完整字 0x78123456，日志地址为 00000004。 边界：整字覆盖，不是部分写；k=0 等价于对齐 sw。base=rt 用同一个旧值算地址和存储数据。不写 GRF。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q12",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "6e2767177693be1d93088c4a61310f26e4ba8b5a27a89a7b7b2b50d9e98a8f20"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "7fc67c3dc71fa6fa194f5efcc2aed3404eb844ad9e3639c23b326bdfc2382daa"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "8f575620869f564b83e05c48a98d57d31982917ca91aaeaf1ba98274a8dd69fb"
+      }
+    ]
+  },
+  "Q13": {
+    "id": "Q13",
+    "name": "bszeal",
+    "format": "bszeal rs, rt, offset",
+    "encoding_bits": "111000 rs rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "后导零相等则分支，总是链接",
+    "rtl": "a = ctz(R[rs]); b = ctz(R[rt])，ctz(0)=32\nR[31] <- P + 4                     // 无论条件是否成立\nif a == b: nextPC <- P + 4 + B(offset)\nelse: nextPC <- P + 4",
+    "other": "例：P=0x3000，源为 10 和 12，计数为 1、2，不跳但仍写 $31=0x3004；源为 20 和 12，计数均为 2，offset=2 时跳至 0x300c。 边界：0 与 0 相等；0 与 0x80000000 的计数为 32、31，不等。源可为 31，读取旧值。链接目标固定 $31、数据固定 P+4，为本册补齐的练习规则。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q13",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "fe0f5e96d9012a77c7b86a7f4850ad43f90bbc2f44c384950fe02ba3146c11d9"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "ff47058c4c7c6f0fef94b33fa24b650929bec147338ef094b461291ec79607b6"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "641c4bf08f650f4b2d339ad940cc801ec4ccccbd7b5f17d6b8c10add316ba5db"
+      }
+    ]
+  },
+  "Q14": {
+    "id": "Q14",
+    "name": "lha",
+    "format": "lha rt, offset(base)",
+    "encoding_bits": "111001 base rt offset16",
+    "original_bits": null,
+    "original": null,
+    "kind": "custom",
+    "description": "半字为 4 的倍数时加载，否则写 0",
+    "rtl": "EA = R[base] + SE16(offset)\nh = Mem16[EA]\nif h[1:0] == 2'b00: R[rt] <- h符号扩展到32位\nelse: R[rt] <- 32'h00000000\nnextPC <- P + 4",
+    "other": "边界：0、0x8000、0xfffc 均满足倍数条件，0xffff 不满足。按半字 bit15 符号扩展。条件失败仍写 0，rt=0 时才丢弃写入。",
+    "source": "P4 练习册（2020–2024 记录改编）",
+    "stage": "P4",
+    "group": "practice",
+    "path": "practice/tests/Q14",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "07e004f13b7a42f1da5d4c343c6837fb4a7040befeecba474beb2b9bd4bc78c7"
+      },
+      {
+        "id": "edges",
+        "title": "边界数据",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "e335e9eaf08235dd25a9ca40db611fd1e9e24735f61e64c475717d0813a9d146"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 400,
+        "finish_pc": 0,
+        "sha256": "15aa5407f44db5d245eecf14d92c2f4ead75dc74f6e0dafdcfe54b98192b7198"
+      }
+    ]
+  },
+  "SPE": {
+    "name": "spe",
+    "format": "spe rs, rt, rd",
+    "encoding_bits": "000000 rs rt rd 00000 101001",
+    "description": "按低 5 位窗口的 1 的个数奇偶，选择位反转或原值写回 rd。",
+    "rtl": "temp <- GPR[rs][4:0]\nif temp < 25 && count_ones(GPR[rt][temp+7:temp]) mod 2 == 0\n\tGPR[rd] <- reverse(GPR[rt])\nelse\n\tGPR[rd] <- GPR[rt]",
+    "other": "2025 真题；SPE 别名 BRC，funct=101001，R 型。",
+    "id": "SPE",
+    "original": null,
+    "kind": "custom",
+    "source": "2025 年 P4 上机真题",
+    "stage": "P4",
+    "group": "exam2025",
+    "path": "exam2025/tests/SPE",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 47,
+        "finish_pc": 0,
+        "sha256": "19cb2517e3a5b8039a92b76f333c8b49a5863ed2cf65c82efd9347b41d4fbfca"
+      },
+      {
+        "id": "window_00",
+        "title": "窗口 00",
+        "cycles": 2057,
+        "finish_pc": 0,
+        "sha256": "ac00ef45b27c7cb140935322c1e54b8efec2b3b3673e8f84482805c8e69221b1"
+      },
+      {
+        "id": "window_12",
+        "title": "窗口 12",
+        "cycles": 2057,
+        "finish_pc": 0,
+        "sha256": "9fc6290555e1c0f87355f80e692c5d3b6309884c787d49489aba9d6873f88efb"
+      },
+      {
+        "id": "window_24",
+        "title": "窗口 24",
+        "cycles": 2057,
+        "finish_pc": 0,
+        "sha256": "d6dfeda4ccde55f015252e35baa0d3c383f1ccbeae7bcf4d6e16fea8e56b6471"
+      },
+      {
+        "id": "temp_bounds",
+        "title": "temp 边界",
+        "cycles": 489,
+        "finish_pc": 0,
+        "sha256": "c82880e8dd14976e141357eb7e41a658b56935e0d4a6e5d537f349b96bde5d02"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 65,
+        "finish_pc": 0,
+        "sha256": "8fa3bbc24186e9385f74d206199c8fb3ea32dff27e8dec6b5ce4a71bbcf05160"
+      },
+      {
+        "id": "random",
+        "title": "固定随机",
+        "cycles": 777,
+        "finish_pc": 0,
+        "sha256": "c3a0f61e089bdd992515727aadac1d3dc02ef97c4db222084466a9c0ad577160"
+      }
+    ]
+  },
+  "CABC": {
+    "name": "cabc",
+    "format": "cabc rs, rt, offset",
+    "encoding_bits": "111100 rs rt offset16",
+    "description": "交叉字节异或后，按两半零的个数相等与否决定分支或写回 rt。",
+    "rtl": "cross1 <- GPR[rs][23:16]||GPR[rt][7:0]||GPR[rs][31:24]||GPR[rt][15:8]\ncross2 <- GPR[rt][7:0]||GPR[rs][23:16]||GPR[rt][31:24]||GPR[rs][15:8]\nxor_result <- cross1 ^ cross2\ncnt1 = count_zero(xor_result[31:16])\ncnt2 = count_zero(xor_result[15:0])\nif cnt1 == cnt2\n\tPC <- PC + 4 + (sign_ext(offset) << 2)\nelse\n\tGRF[rt] <- xor_result",
+    "other": "2025 真题；opcode=111100，I 型，无延迟槽。",
+    "id": "CABC",
+    "original": null,
+    "kind": "custom",
+    "source": "2025 年 P4 上机真题",
+    "stage": "P4",
+    "group": "exam2025",
+    "path": "exam2025/tests/CABC",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 40,
+        "finish_pc": 0,
+        "sha256": "347556590d6df1679f73210a3e0f7009881da0602a286c628ec1952056d0b113"
+      },
+      {
+        "id": "cross_counts",
+        "title": "交叉字节与计数",
+        "cycles": 216,
+        "finish_pc": 0,
+        "sha256": "08ba9818a31f546da95e47baaee6e7fad25e8cf0cf8661ef94f542641b2aebd1"
+      },
+      {
+        "id": "branch_offsets",
+        "title": "分支偏移",
+        "cycles": 44,
+        "finish_pc": 0,
+        "sha256": "757c5134c7fe602eeecba30354660d8b0aae03586d8a0a08b53008a2876a282c"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 75,
+        "finish_pc": 0,
+        "sha256": "c4a5f40e70c2eeb079ff3f80f842223eb8fc7e8b7251ab0a57c8058d73f0c1a2"
+      },
+      {
+        "id": "random",
+        "title": "固定随机",
+        "cycles": 866,
+        "finish_pc": 0,
+        "sha256": "51681769da02a4ca2074c1133b93c3b7a45f089638a87972f2499ed7861784ba"
+      }
+    ]
+  },
+  "LHBOC": {
+    "name": "lhboc",
+    "format": "lhboc rt, offset(base)",
+    "encoding_bits": "101101 base rt offset16",
+    "description": "按内存字两半 1 的个数选择低/高半字符号扩展写回 rt。",
+    "rtl": "vAddr <- GPR[rs] + sign_ext(offset)\npAddr <- vAddr[31:2]||00\nmemword <- Memory[pAddr]\ntemp1 <- count_ones(memword[15:0])\ntemp2 <- count_ones(memword[31:16])\nif temp1 >= temp2\n\tGPR[rt] <- sign_ext(memword[15:0])\nelse\n\tGPR[rt] <- sign_ext(memword[31:16])",
+    "other": "2025 真题；opcode=101101，I 型；地址按字对齐。",
+    "id": "LHBOC",
+    "original": null,
+    "kind": "custom",
+    "source": "2025 年 P4 上机真题",
+    "stage": "P4",
+    "group": "exam2025",
+    "path": "exam2025/tests/LHBOC",
+    "cases": [
+      {
+        "id": "basic",
+        "title": "常规功能",
+        "cycles": 55,
+        "finish_pc": 0,
+        "sha256": "5bd281ceab9f1966ae1f5f1c948fa48b0920e3099e863cb14ddd8a5c2b7039a6"
+      },
+      {
+        "id": "ties_and_sign",
+        "title": "相等与符号扩展",
+        "cycles": 104,
+        "finish_pc": 0,
+        "sha256": "f4238ac6876a23cfef3f9e312ea0840031695a11903536d1561b1c43ce1597a6"
+      },
+      {
+        "id": "addresses",
+        "title": "地址边界",
+        "cycles": 99,
+        "finish_pc": 0,
+        "sha256": "1b1230c26ac4862b7bd8e3dac2d9a19572329fb0b69978692384081226f78380"
+      },
+      {
+        "id": "alias_zero",
+        "title": "源目的重合与 $0",
+        "cycles": 57,
+        "finish_pc": 0,
+        "sha256": "4a66d37be69149dd1562b9273499be682b2f5f1162876511b61c3db63cd16570"
+      },
+      {
+        "id": "random",
+        "title": "固定随机",
+        "cycles": 777,
+        "finish_pc": 0,
+        "sha256": "2477e936869baa8ef97a19c2481f71caedd0fbc8c2dc54c2239f90190d2cfdd9"
+      }
+    ]
+  },
+  "MIXED": {
+    "name": "mixed",
+    "format": "spe / cabc / lhboc",
+    "encoding_bits": null,
+    "description": "同一程序内同时使用 SPE、CABC、LHBOC，覆盖数据依赖与分支/写回交互。",
+    "rtl": "见 SPE / CABC / LHBOC 三题；本组只测三条指令的组合依赖。",
+    "other": "2025 真题综合点，不单独对应一条新指令。",
+    "id": "MIXED",
+    "original": null,
+    "kind": "custom",
+    "source": "2025 年 P4 上机真题",
+    "stage": "P4",
+    "group": "exam2025",
+    "path": "exam2025/tests/MIXED",
+    "cases": [
+      {
+        "id": "dependencies",
+        "title": "三条指令依赖",
+        "cycles": 30,
+        "finish_pc": 0,
+        "sha256": "09537158345f61ce8a5c08ad0ee38f13a37286989280f2daa443685769cd03cb"
+      }
+    ]
+  }
+}

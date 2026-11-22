@@ -1,0 +1,16 @@
+{
+  "SPE": {
+    "op": 0,
+    "funct": 41,
+    "format": "000000 rs rt rd 00000 101001",
+    "alias": "BRC"
+  },
+  "CABC": {
+    "op": 60,
+    "format": "111100 rs rt offset16"
+  },
+  "LHBOC": {
+    "op": 45,
+    "format": "101101 base rt offset16"
+  }
+}
