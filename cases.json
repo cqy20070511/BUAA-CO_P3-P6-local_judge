@@ -13000,5 +13000,944 @@
     ],
     "encoding_bits": "110111 base rt offset16",
     "original_bits": null
+  },
+  "Q25": {
+    "id": "Q25",
+    "name": "mrb",
+    "format": "mrb rd, rs, rt",
+    "encoding": [
+      "R",
+      58
+    ],
+    "kind": "mdu",
+    "description": "将旧 rs 加旧 LO，保留低 32 位后循环左移 LO[4:0] 位，结果写 rd。结果再与旧 rt 作无符号乘法，在每个字节内反转位序，最终写 HI、LO。乘法和反转共 6 周期。",
+    "rtl": "sum32 = GRF[rs] + LO;\ntmp = (sum32 << LO[4:0]) | (sum32 >> (32 - LO[4:0]));\nGRF[rd] <= tmp;\nproduct64 = tmp * GRF[rt];\nfor (i = 0; i < 64; i = i + 1)\n    reversed[i] = product64[(i/8)*8 + 7 - i%8];\n{HI, LO} <= reversed;",
+    "other": "sum32、tmp 为 32 位无符号值，product64、reversed 为 64 位。题面来自 2026-11-23 考后回忆，编码为本地练习编码。",
+    "source": "",
+    "original": null,
+    "latency": 6,
+    "path": "tests/往年题/Q25",
+    "cases": [
+      {
+        "id": "01",
+        "title": "功能与源数据转发",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "3d42a78de4b5c1c82b678f7ff5070b7ff88a05e04b69b2c0bd9f17b4f25c03ca"
+      },
+      {
+        "id": "02",
+        "title": "功能与源数据转发",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "efac25d13c933ec7d3b01637d91c1d35bf3cc112c41b599b4dd40c7ecfbd45ef"
+      },
+      {
+        "id": "03",
+        "title": "功能与源数据转发",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "27c3636ef2b6fad5d0886b03bdfde4cb0c30972469460249d0d7a7d54e0c807f"
+      },
+      {
+        "id": "04",
+        "title": "功能与源数据转发",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "7723cd402c2be782b11e509c9211543394ccaad1fc29397560c45067b51bc0fe"
+      },
+      {
+        "id": "05",
+        "title": "间隔一条指令及写后读",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "5c61993a876b141df4cb7086a2bfc355f37508e1efaafdfb45b2606fd66e3fcc"
+      },
+      {
+        "id": "06",
+        "title": "间隔一条指令及写后读",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "ecad14b900b70f728f90d912e2d7cf8dfa6bd8fa221bdae9ba39ab06d6e54e20"
+      },
+      {
+        "id": "07",
+        "title": "间隔一条指令及写后读",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "41c9b995e0a3fa60d76f9fcf3b35124d5ba3bc1c3c58795c88d2d97c1e80ddef"
+      },
+      {
+        "id": "08",
+        "title": "间隔一条指令及写后读",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "9533670f0e5cd4a988f4b18b6d1f0ae2c9f0b77a956729c0b7652b07640b2983"
+      },
+      {
+        "id": "09",
+        "title": "间隔两条指令及写回",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "447ef0b272dafe70784185845ea7dc5994fe9914750bf11987d6ea32065c8aa1"
+      },
+      {
+        "id": "10",
+        "title": "间隔两条指令及写回",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "b94265a48f7500f0190e1c1819fe6e40005452bbd88a672ff910100f58e8bdfc"
+      },
+      {
+        "id": "11",
+        "title": "间隔两条指令及写回",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "93742fd00dbf41e9bde88af771558eb88047e723d33e8260bd0ed7054baee2bb"
+      },
+      {
+        "id": "12",
+        "title": "间隔两条指令及写回",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "0a9e037f48d25cbb610abcaafef237831dd02dc940a10d8c3084791d4823de6c"
+      },
+      {
+        "id": "13",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "fba0d634267f4ba810333627ee05ea0b9bbf78a3be9f2a9a0d3512e687a454ce"
+      },
+      {
+        "id": "14",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "eb39135325c09b340056ce9fef3c56427c8a879c053b631f18930865cdc59d43"
+      },
+      {
+        "id": "15",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "63d767095fd2066c17fc430fdc4b7bb995e379d2530649af7265713b06ce7086"
+      },
+      {
+        "id": "16",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "9ed2733df02034287333a2bd35a5fd832e0340258e201b54f483bf4d5f2d5e25"
+      },
+      {
+        "id": "17",
+        "title": "条件路径与目的选择",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "a73c1c79f6bdb34cdbc39ca832bfee3a3b835f6e5ccbca98a2b690bf3e69574a"
+      },
+      {
+        "id": "18",
+        "title": "条件路径与目的选择",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "0c93815ff63a5c3df009ca73c08e24fc8a339fe5c80d660b4ad273eb57fba3e1"
+      },
+      {
+        "id": "19",
+        "title": "条件路径与目的选择",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "ef54016a4b033c0d731338fa3bab52c00abc07a6da2594220aa5dd879fb5bf06"
+      },
+      {
+        "id": "20",
+        "title": "条件路径与目的选择",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "b73df00318a3bcd1eebcbdb2aa7ff91d43efde5e1b1cff216cba4cc6f39dd2b9"
+      },
+      {
+        "id": "21",
+        "title": "组合与周期压力",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "ffc6f7f2ca918263539ad7f842d56d48891fe8a590fce92ee06112d460a7654c"
+      },
+      {
+        "id": "22",
+        "title": "组合与周期压力",
+        "cycles": 69,
+        "steps": 19,
+        "custom_hits": 1,
+        "finish_pc": 12360,
+        "focus": [
+          12332
+        ],
+        "sha256": "4a22ac3bdcc3683f29c99e0609694c50957108b1575bca30bde34f4164330cd2"
+      },
+      {
+        "id": "23",
+        "title": "组合与周期压力",
+        "cycles": 61,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12344,
+        "focus": [
+          12316
+        ],
+        "sha256": "91b401c028731099701e28bc6cb25bf5f47991d1434871d36386a98001cbd679"
+      },
+      {
+        "id": "24",
+        "title": "组合与周期压力",
+        "cycles": 209,
+        "steps": 114,
+        "custom_hits": 5,
+        "finish_pc": 12748,
+        "focus": [
+          12512,
+          12556,
+          12616,
+          12660,
+          12720
+        ],
+        "sha256": "39dc14c1090ceb4bc8d217506e6ac362cd37d36e4471c3feb48e3f5f3c9d71b1"
+      }
+    ],
+    "encoding_bits": "000000 rs rt rd 00000 111010",
+    "original_bits": null
+  },
+  "Q26": {
+    "id": "Q26",
+    "name": "bel",
+    "format": "bel rs, rt, label",
+    "encoding": [
+      "I",
+      58
+    ],
+    "kind": "branch",
+    "description": "逐对比较 rs 和 rt 的对应字节。恰好一对相等时，执行延迟槽后跳到 PC 相对目标，把 PC+8 写入 rs 命中字节低五位指定的寄存器。其余情况取消延迟槽，不链接，继续执行 PC+8。",
+    "rtl": "count = 0;\nfor (i = 0; i < 4; i = i + 1)\n    if (GRF[rs][8*i +: 8] == GRF[rt][8*i +: 8]) begin\n        count = count + 1;\n        idx = i;\n    end\nif (count == 1) begin\n    GRF[GRF[rs][8*idx +: 5]] <= PC + 8;\n    PC <= PC + 4 + ({{16{offset[15]}}, offset} << 2);\nend else begin\n    // 取消延迟槽\n    PC <= PC + 8;\nend",
+    "other": "题面来自 2026-11-23 考后回忆，编码为本地练习编码。",
+    "source": "",
+    "original": null,
+    "latency": 0,
+    "path": "tests/往年题/Q26",
+    "cases": [
+      {
+        "id": "01",
+        "title": "功能与源数据转发",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "b9eb5929e43ac7d1a1272e06e93ff1ee4706ecb054d6d434931978c80cbb907a"
+      },
+      {
+        "id": "02",
+        "title": "功能与源数据转发",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "21e62478b95aa747f180c73761227038bb6a259db3212b263e28354851eb3738"
+      },
+      {
+        "id": "03",
+        "title": "功能与源数据转发",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "2b4351b2c2976ea19133eff4a0471fa76e2d0015605d266d7999030dc78093e0"
+      },
+      {
+        "id": "04",
+        "title": "功能与源数据转发",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "db8b8199542c891f85224d929507ac16c0b45461fbdf6ddbc5b5d6a3468ebcf3"
+      },
+      {
+        "id": "05",
+        "title": "间隔一条指令及写后读",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "846966c1754d4ead193ce023e5bc37c963a19b301ff9f627d9deee2e76e68156"
+      },
+      {
+        "id": "06",
+        "title": "间隔一条指令及写后读",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "14ba487f8aa875e99b02b982e4ab1c2339e2a68ea3175647dd1be45e5841b43e"
+      },
+      {
+        "id": "07",
+        "title": "间隔一条指令及写后读",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "d0d12d7be4e339e034559e1dcc4938365f46b26a119100c0d68db04ae2fdc97d"
+      },
+      {
+        "id": "08",
+        "title": "间隔一条指令及写后读",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "6c0baa062618300a31d7b8729a34783975cb7fb699f63a69b9e58bc77aef8382"
+      },
+      {
+        "id": "09",
+        "title": "间隔两条指令及写回",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "65f1cee98e497291543beb375a6c9fcbb797d12ab8997860e46dda890e1a409c"
+      },
+      {
+        "id": "10",
+        "title": "间隔两条指令及写回",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "6b8ea0d6e27371a324bb66feed21dd996e4678a01d9de56386560061532dad78"
+      },
+      {
+        "id": "11",
+        "title": "间隔两条指令及写回",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "a25a9e470c133843309897fec94859a741390ecd42f7ae5590b9ff8edd1e70d7"
+      },
+      {
+        "id": "12",
+        "title": "间隔两条指令及写回",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "f54dc931f541a07494e4b0866251ea305030e6ab729c8c9cb4da7ba45de2f506"
+      },
+      {
+        "id": "13",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "f187982319dfb621134755dde20f00f379a5ce31b9ba8063a6fc2744f24cb707"
+      },
+      {
+        "id": "14",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "79e30eb6c6619a26ca585eab9c95d7cc9486d5ae8e80b1e65b3bbaef39ed78ba"
+      },
+      {
+        "id": "15",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "2a4215761622c0ebc7d540181bca806c0820ff3354e2a03c49cb629cd56317c8"
+      },
+      {
+        "id": "16",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "decdef1237e6d4011bff9fdba9361213d8f01735f1078530ff444a9448c5758b"
+      },
+      {
+        "id": "17",
+        "title": "条件路径与目的选择",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "992f0fdb794815ca82b109942be2fb56fb41ec026d4123ef76d9e6bfa3d000a0"
+      },
+      {
+        "id": "18",
+        "title": "条件路径与目的选择",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "69dfc7826e383e29cdd1f9b377933377cf5ef9a0ca686033fc4fff8f729422ac"
+      },
+      {
+        "id": "19",
+        "title": "条件路径与目的选择",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "b88120d708731ea5e7c7922817734b510b586c5f5cbcfc1a7cb63ef7327dcb8e"
+      },
+      {
+        "id": "20",
+        "title": "条件路径与目的选择",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "de26c88ff113bb3338cd7f48db0f6f915eb2245cbab23430e8677c48eeb8f07a"
+      },
+      {
+        "id": "21",
+        "title": "组合与周期压力",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "f100f0c6df073e8da44288a3f504fe11155c2dd17cfa67d4f6639dfd7950ca0c"
+      },
+      {
+        "id": "22",
+        "title": "组合与周期压力",
+        "cycles": 50,
+        "steps": 13,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12312
+        ],
+        "sha256": "99969b87cdac5a7ff1100b1e1ac9354a71006863ab4a1dd4a7802b66e5387261"
+      },
+      {
+        "id": "23",
+        "title": "组合与周期压力",
+        "cycles": 54,
+        "steps": 15,
+        "custom_hits": 1,
+        "finish_pc": 12348,
+        "focus": [
+          12320
+        ],
+        "sha256": "02770f215d9a1e4413343359883fa421ffddbe4eccfe187800784543a4cbbfb9"
+      },
+      {
+        "id": "24",
+        "title": "组合与周期压力",
+        "cycles": 246,
+        "steps": 94,
+        "custom_hits": 5,
+        "finish_pc": 12688,
+        "focus": [
+          12492,
+          12532,
+          12580,
+          12620,
+          12660
+        ],
+        "sha256": "64f58a2674ab711cccfa7d09868654cdb3418a694aba387d326d9d67c703766f"
+      }
+    ],
+    "encoding_bits": "111010 rs rt offset16",
+    "original_bits": null
+  },
+  "Q27": {
+    "id": "Q27",
+    "name": "lnb",
+    "format": "lnb rt, offset(base)",
+    "encoding": [
+      "I",
+      59
+    ],
+    "kind": "load",
+    "description": "读取有效地址处的整字，以旧 rt 低八位作参考值，选择绝对差最小的字节。并列选编号最小的字节。将选中字节零扩展写入编号 rt+idx 的寄存器。保证 rt 不超过 28。",
+    "rtl": "best = 256;\nfor (i = 0; i < 4; i = i + 1) begin\n    x = mword[8*i +: 8];\n    distance = x >= ref_byte ? x - ref_byte : ref_byte - x;\n    if (distance < best) begin\n        best = distance;\n        idx = i;\n    end\nend\nGRF[rt + idx] <= {24'd0, mword[8*idx +: 8]};",
+    "other": "练习测试使用合法且四字节对齐的地址。参考字节和内存字节按无符号处理。题面来自 2026-11-23 考后回忆，编码为本地练习编码。",
+    "source": "",
+    "original": null,
+    "latency": 0,
+    "path": "tests/往年题/Q27",
+    "cases": [
+      {
+        "id": "01",
+        "title": "功能与源数据转发",
+        "cycles": 48,
+        "steps": 12,
+        "custom_hits": 1,
+        "finish_pc": 12332,
+        "focus": [
+          12308
+        ],
+        "sha256": "0143bc6e2aa3d794844d0c00ea4d94000a4ff33e244fd68e1393ca6b4143a4a6"
+      },
+      {
+        "id": "02",
+        "title": "功能与源数据转发",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "53b849ea10e1dbe85d32f35c5977b9e11527874b864a0ced687efffc4f359ab9"
+      },
+      {
+        "id": "03",
+        "title": "功能与源数据转发",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "4f3e1127766580d361bd5cacf17e3ad9ff26403c056aeb765a5140fd67306ca3"
+      },
+      {
+        "id": "04",
+        "title": "功能与源数据转发",
+        "cycles": 48,
+        "steps": 12,
+        "custom_hits": 1,
+        "finish_pc": 12332,
+        "focus": [
+          12308
+        ],
+        "sha256": "583574a9ae14d4ef7ea0efcd43626c64619f9032de5729d94379c63777c08494"
+      },
+      {
+        "id": "05",
+        "title": "间隔一条指令及写后读",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "2ec104501888e935adb41cf0bc810ecd6f19ee0d5968e7d86c3dbda99cde2a3b"
+      },
+      {
+        "id": "06",
+        "title": "间隔一条指令及写后读",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "f943155b41e1beee682fa8090a0e97a64979b6f16f3ad6e63224d37e355209f4"
+      },
+      {
+        "id": "07",
+        "title": "间隔一条指令及写后读",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "c2db5fe45ccc9cec60c03802a0811c8fff5a09921153f459df7c640baa195249"
+      },
+      {
+        "id": "08",
+        "title": "间隔一条指令及写后读",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "5a5897fbaea1f2f21855e191416cfbc6677333ebc4777ff7bb2597eccd7f0bbd"
+      },
+      {
+        "id": "09",
+        "title": "间隔两条指令及写回",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "a83dd3db6fe1ed19d0d0b913cd508ec953d09d47314d9f3bd64f934785a80fe7"
+      },
+      {
+        "id": "10",
+        "title": "间隔两条指令及写回",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "a4a6646a8ddf860e763dd13d83f8573a7ea28096f5f4124455d1642a917ca67e"
+      },
+      {
+        "id": "11",
+        "title": "间隔两条指令及写回",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "ba912c6dbd3dbb7116f9c53a1ce9033f11408a8b827d278f143a2ccd817a6128"
+      },
+      {
+        "id": "12",
+        "title": "间隔两条指令及写回",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "0613cbf0e795ede7867561a5660fbf8fdeb018add4a8a527c45eb1bdbc992507"
+      },
+      {
+        "id": "13",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "7a606b4bc96ffb290dfcefc0c39a48dcb2cdbc52af68b00b21dd83e0e28a805f"
+      },
+      {
+        "id": "14",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "24f49c2dccaab93a2e5e039539f211c02ad3e7e109d33882b21abf9c12d41610"
+      },
+      {
+        "id": "15",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "554dc1e8baf250401898f1e89f70d635a9826a52d63c8290c4838529cf8c801b"
+      },
+      {
+        "id": "16",
+        "title": "寄存器别名与最新值优先",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "357e1b121b1fb3ca1f297b13f464827f33bc1372cd43dbda33310f936d58fb1d"
+      },
+      {
+        "id": "17",
+        "title": "条件路径与目的选择",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "a2334d661984fe635e1df517b9e21ab3f39f309fca18173e337c943a90b64371"
+      },
+      {
+        "id": "18",
+        "title": "条件路径与目的选择",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "f541803d70f2256948d7aae6354d785c699c32713b828c28c59f7ce567435a7b"
+      },
+      {
+        "id": "19",
+        "title": "条件路径与目的选择",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "9ff9a26f7a133a2c5b30347357fbb0f79c4b5215bf2ca5ec441be1dc16643e41"
+      },
+      {
+        "id": "20",
+        "title": "条件路径与目的选择",
+        "cycles": 60,
+        "steps": 18,
+        "custom_hits": 1,
+        "finish_pc": 12356,
+        "focus": [
+          12332
+        ],
+        "sha256": "7bdefaee4befde155e4737b6e49691163bd9518196f58ec7e6c3317febd987e2"
+      },
+      {
+        "id": "21",
+        "title": "组合与周期压力",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "baf4b3bf69e08965b9e580da377300ad0f01c2f02c3a4ce25fcba9a29bdbe098"
+      },
+      {
+        "id": "22",
+        "title": "组合与周期压力",
+        "cycles": 48,
+        "steps": 12,
+        "custom_hits": 1,
+        "finish_pc": 12332,
+        "focus": [
+          12308
+        ],
+        "sha256": "583574a9ae14d4ef7ea0efcd43626c64619f9032de5729d94379c63777c08494"
+      },
+      {
+        "id": "23",
+        "title": "组合与周期压力",
+        "cycles": 52,
+        "steps": 14,
+        "custom_hits": 1,
+        "finish_pc": 12340,
+        "focus": [
+          12316
+        ],
+        "sha256": "53b849ea10e1dbe85d32f35c5977b9e11527874b864a0ced687efffc4f359ab9"
+      },
+      {
+        "id": "24",
+        "title": "组合与周期压力",
+        "cycles": 268,
+        "steps": 105,
+        "custom_hits": 5,
+        "finish_pc": 12712,
+        "focus": [
+          12496,
+          12536,
+          12592,
+          12648,
+          12688
+        ],
+        "sha256": "0800707ed7f3b4efd9cda4b710dbcc93a75c35d04dc00c9b0e920be2ed7f8d14"
+      }
+    ],
+    "encoding_bits": "111011 base rt offset16",
+    "original_bits": null
   }
 }

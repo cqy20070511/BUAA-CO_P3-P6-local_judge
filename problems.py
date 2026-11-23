@@ -370,5 +370,44 @@ if (number >= 29) destination = 29;
 if (number >= 31) destination = 31;
 GRF[destination] <= word;""",'题型参考 Q23 及其来源 S12 记录的异或版本。')
 
+add('Q25','mrb','mrb rd, rs, rt',('R',0x3a),'mdu',
+    '将旧 rs 加旧 LO，保留低 32 位后循环左移 LO[4:0] 位，结果写 rd。结果再与旧 rt 作无符号乘法，在每个字节内反转位序，最终写 HI、LO。乘法和反转共 6 周期。',
+    """sum32 = GRF[rs] + LO;
+tmp = (sum32 << LO[4:0]) | (sum32 >> (32 - LO[4:0]));
+GRF[rd] <= tmp;
+product64 = tmp * GRF[rt];
+for (i = 0; i < 64; i = i + 1)
+    reversed[i] = product64[(i/8)*8 + 7 - i%8];
+{HI, LO} <= reversed;""",
+    'sum32、tmp 为 32 位无符号值，product64、reversed 为 64 位。题面来自 2026-11-23 考后回忆，编码为本地练习编码。',cycles=6)
+add('Q26','bel','bel rs, rt, label',('I',0x3a),'branch',
+    '逐对比较 rs 和 rt 的对应字节。恰好一对相等时，执行延迟槽后跳到 PC 相对目标，把 PC+8 写入 rs 命中字节低五位指定的寄存器。其余情况取消延迟槽，不链接，继续执行 PC+8。',
+    """count = 0;
+for (i = 0; i < 4; i = i + 1)
+    if (GRF[rs][8*i +: 8] == GRF[rt][8*i +: 8]) begin
+        count = count + 1;
+        idx = i;
+    end
+if (count == 1) begin
+    GRF[GRF[rs][8*idx +: 5]] <= PC + 8;
+    PC <= PC + 4 + ({{16{offset[15]}}, offset} << 2);
+end else begin
+    // 取消延迟槽
+    PC <= PC + 8;
+end""",'题面来自 2026-11-23 考后回忆，编码为本地练习编码。')
+add('Q27','lnb','lnb rt, offset(base)',('I',0x3b),'load',
+    '读取有效地址处的整字，以旧 rt 低八位作参考值，选择绝对差最小的字节。并列选编号最小的字节。将选中字节零扩展写入编号 rt+idx 的寄存器。保证 rt 不超过 28。',
+    """best = 256;
+for (i = 0; i < 4; i = i + 1) begin
+    x = mword[8*i +: 8];
+    distance = x >= ref_byte ? x - ref_byte : ref_byte - x;
+    if (distance < best) begin
+        best = distance;
+        idx = i;
+    end
+end
+GRF[rt + idx] <= {24'd0, mword[8*idx +: 8]};""",
+    '练习测试使用合法且四字节对齐的地址。参考字节和内存字节按无符号处理。题面来自 2026-11-23 考后回忆，编码为本地练习编码。')
+
 BY_ID = {p['id']:p for p in PROBLEMS}
 BY_NAME = {p['name']:p for p in PROBLEMS}

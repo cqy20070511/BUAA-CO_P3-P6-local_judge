@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """生成不放进 Git 的 P5 / P6 派生测试数据。
 
-P3 / P4 的测试点随仓库提供；P5（960 点）和 P6（936 点）的 code.txt /
+P3 / P4 的测试点随仓库提供；P5（960 点）和 P6（1008 点）的 code.txt /
 expected.log 体积较大，由本脚本从固定输入生成。生成后即可启动网页。
 """
 import argparse
@@ -24,7 +24,11 @@ def ensure(stage, force=False):
     base = ROOT if stage == "P6" else ROOT / "p5"
     tests = base / "tests"
     expected = count_cases(stage)
-    if tests.is_dir() and not force:
+    if tests.is_dir() and not force and all(
+        (base / spec["path"] / case["id"] / name).is_file()
+        for spec in json.loads((base / "cases.json").read_text(encoding="utf-8")).values()
+        for case in spec["cases"] for name in ("code.txt", "expected.log")
+    ):
         print(f"{stage}: 已有 {tests.relative_to(ROOT)}（{expected} 点），跳过。")
         return
     if force and tests.is_dir():
@@ -50,7 +54,7 @@ def main():
     args = parser.parse_args()
     ensure("P6", args.force)
     ensure("P5", args.force)
-    verify("P6", 936)
+    verify("P6", count_cases("P6"))
     verify("P5", 960)
     print("\n完成。现在可以运行 启动评测机.cmd 或 python server.py。")
     print("P3 的 283 点、P4 的 60 点测试随仓库提供，无需生成。")

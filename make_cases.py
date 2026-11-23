@@ -72,7 +72,7 @@ class Program:
                 form,code=self.spec['original'] if original and self.spec['original'] else self.spec['encoding']
                 if self.spec['kind'] in ('load','store'):
                     rt,off,rs=args;word=(code<<26)|(rs<<21)|(rt<<16)|(off&65535)
-                elif name in ('blezalc','bparal','jabs','jmv'):
+                elif name in ('blezalc','bparal','jabs','jmv','bel'):
                     if name=='blezalc':rs,label=args;rt=0;extra=0
                     else:rs,rt,label,extra=args
                     off=(self.labels[label]-pc-4)//4-extra
@@ -82,7 +82,7 @@ class Program:
                 elif form=='J':word=(code<<26)|(self.labels[args[0]]>>2)
                 else:
                     if name in ('clz','ctz'):rd,rs=args;rt=0
-                    elif name in ('sbc','crt','bmax','bgezalr'):rd,rs,rt=args
+                    elif name in ('sbc','crt','bmax','bgezalr','mrb'):rd,rs,rt=args
                     elif name in ('shl','mneg'):rd=rs=rt=0
                     else:rs,rt=args;rd=0
                     word=(rs<<21)|(rt<<16)|(rd<<11)|code
@@ -319,7 +319,7 @@ def bits(spec,original=False):
     name=spec['name']
     if form=='J':return f'{n:06b} target26'
     if form=='I':return f'{n:06b} '+('rs 00000 offset16' if name=='blezalc' else 'base rt offset16' if spec['kind'] in ('load','store') else 'rs rt offset16')
-    fields='rs rt rd' if name in ('bgezalr','sbc','crt','bmax') else 'rs 00000 rd' if name in ('clz','ctz') else '00000 00000 00000' if name in ('shl','mneg') else 'rs rt 00000'
+    fields='rs rt rd' if name in ('bgezalr','sbc','crt','bmax','mrb') else 'rs 00000 rd' if name in ('clz','ctz') else '00000 00000 00000' if name in ('shl','mneg') else 'rs rt 00000'
     return '000000 '+fields+f' 00000 {n:06b}'
 
 
@@ -343,7 +343,7 @@ COMMON='''每题独立，以课程 P6 的 28 条指令为基础，只添加当�
 def booklet(group):
     historical=group=='Q'
     title='北航计组 P6 往年题目册' if historical else 'P6 模拟上机题目册（15 题）'
-    intro='收录原有的 24 道历史资料改编练习。9 道具有平台题面存档，其余来自文字回忆；补全规则在各题“其他”中说明，来源记录另附。' if historical else '以下 15 道为新编模拟题，考点限定在已有往年题和课程指令涉及的范围内，不作为历史原题。'
+    intro='收录27 道历史资料改编练习。9 道具有平台题面存档，其余来自文字回忆；补全规则在各题“其他”中说明，来源记录另附。' if historical else '以下 15 道为新编模拟题，考点限定在已有往年题和课程指令涉及的范围内，不作为历史原题。'
     text=f'# {title}\n\n版本 2.0，2026-11-20。{intro}\n\n## 公共说明\n\n{COMMON}\n'
     for s in PROBLEMS:
         if not s['id'].startswith(group):continue
@@ -355,12 +355,73 @@ def booklet(group):
     return text
 
 
+def exam_20261123(spec,k):
+    p = Program(spec)
+    e = p.emit
+    name = spec['name']
+    if k == 23:
+        baseline(p)
+    for n in range(5 if k == 23 else 1):
+        i = k+n
+        if name == 'mrb':
+            shift = [0,1,7,8,16,31][i%6]
+            p.li(2,0xffffffe0|shift)
+            e('mtlo',2)
+            p.producer(3,VALUES[(i*7+1)%len(VALUES)],i%4 if i%4!=2 else 0)
+            p.producer(5,VALUES[(i*5+2)%len(VALUES)],i%2)
+            rd = [7,3,5,0,31][i%5]
+            p.custom(rd,3,5)
+            e('add',10,rd,0)
+            e('mfhi',11)
+            e('mflo',12)
+        elif name == 'bel':
+            idx = i%4
+            rd = [0,1,3,5,29,31][(i//4)%6]
+            a = 0x60402000 | (rd<<(8*idx))
+            mode = (i//4)%4
+            delta = [0xffffffff,0xffffffff^(0xff<<(8*idx)),0xff,0][mode]
+            p.producer(3,a,i%3)
+            p.producer(5,a^delta,(i+1)%3)
+            label = f'bel_target_{n}'
+            p.custom(3,5,label,0)
+            if i%2:
+                e('sw',rd,0x580,0)
+            else:
+                e('add',20,rd,0)
+            e('ori',21,0,i+1)
+            p.label(label)
+            e('add',22,rd,0)
+        else:
+            idx = i%4
+            rt = [0,3,5,17,28][(i//4)%5]
+            addr = 0x2ffc if i%5==0 else 0x400
+            lanes = [0,0xff,0x7f,0x80]
+            ref = lanes[idx]
+            if rt==0:
+                ref = 0
+            if i%3==0:
+                ref = 0 if rt==0 else 0x80
+                lanes = [0x7f,0xff,0x81,0]
+            word = sum(x<<(8*j) for j,x in enumerate(lanes))
+            p.li(1,word)
+            e('sw',1,addr,0)
+            p.producer(6,addr+4,i%3)
+            if rt:
+                p.producer(rt,0xff00|ref,i%3)
+            p.custom(rt,-4,6)
+            dst = rt+min(range(4),key=lambda j:abs(lanes[j]-ref))
+            e('add',23,dst,0)
+            e('sw',dst,0x584,0)
+    p.finish()
+    return p
+
+
 def main():
     manifest={};count=0
     for spec in PROBLEMS:
         cases=[];folder=ROOT/'tests'/('往年题' if spec['id'].startswith('Q') else '模拟题')/spec['id']
         for k in range(24):
-            p=({'alu':arithmetic,'load':memory,'store':memory,'mdu':mdu,'branch':branch}[spec['kind']])(spec,k)
+            p=exam_20261123(spec,k) if spec['id'] in ('Q25','Q26','Q27') else ({'alu':arithmetic,'load':memory,'store':memory,'mdu':mdu,'branch':branch}[spec['kind']])(spec,k)
             words=p.encode();expected=reference(words,spec['id'])
             assert expected['custom_hits']>0
             case_id=f'{k+1:02d}';dest=folder/case_id;dest.mkdir(parents=True,exist_ok=True)

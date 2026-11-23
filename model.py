@@ -48,6 +48,7 @@ def reference(words, problem, original=False, max_steps=10000):
         a,b,imm = r[rs],r[rt],signed(ins&0xffff,16)
         addr = (a+imm)&MASK
         target = None
+        annul = False
         dst, value = 0,0
         is_custom = (op == 0 and fn == code) if form=='R' else op == code
         retired += 1
@@ -59,7 +60,11 @@ def reference(words, problem, original=False, max_steps=10000):
                 byte = (full >> (8*(addr&3)))&255
                 half = (full >> (16*((addr>>1)&1)))&65535
                 dst,value = rt,full
-                if name=='lwld': dst = 31 if full>=0x3000 and full&3==0 else rt
+                if name=='lnb':
+                    lanes = [(full >> (8*i)) & 255 for i in range(4)]
+                    idx = min(range(4), key=lambda i: abs(lanes[i] - (b & 255)))
+                    dst,value = rt+idx,lanes[idx]
+                elif name=='lwld': dst = 31 if full>=0x3000 and full&3==0 else rt
                 elif name=='lhsb': dst,value = (rt if addr&1==0 else 0),signed(byte,8)
                 elif name=='lhsh': dst,value = (rt if addr&1==0 else 0),signed(half,16)
                 elif name=='lhonez':
@@ -97,7 +102,13 @@ def reference(words, problem, original=False, max_steps=10000):
             elif spec['kind']=='branch':
                 target=pc+8
                 relative=(pc+4+imm*4)&MASK
-                if name=='blezalc' and signed(a)<=0: dst,value,target=31,pc+8,relative
+                if name=='bel':
+                    matching = [i for i in range(4) if ((a^b) >> (8*i)) & 255 == 0]
+                    if len(matching)==1:
+                        dst,value,target = (a >> (8*matching[0])) & 31, pc+8, relative
+                    else:
+                        annul = True
+                elif name=='blezalc'  and signed(a)<=0: dst,value,target=31,pc+8,relative
                 elif name=='bgezalr':
                     dst,value=rd,pc+8
                     if signed(a)>=0: target=b
@@ -115,7 +126,13 @@ def reference(words, problem, original=False, max_steps=10000):
                 old=(hi<<32)|lo
                 result=None
                 active=True
-                if name=='multc':
+                if name=='mrb':
+                    total = (a+lo)&MASK
+                    shift = lo&31
+                    dst,value = rd,((total<<shift)|(total>>(32-shift)))&MASK
+                    product = value*b
+                    result = sum(int(f'{(product>>(8*i))&255:08b}'[::-1],2)<<(8*i) for i in range(8))
+                elif name=='multc':
                     active=signed(a)>0
                     if active: result=signed(a)*signed(b)
                 elif name in ('msub','madd'): result=old+(-1 if name=='msub' else 1)*signed(a)*signed(b)
@@ -188,6 +205,8 @@ def reference(words, problem, original=False, max_steps=10000):
         if pending is not None:
             if target is not None: raise ValueError('控制指令位于延迟槽')
             pc,pending=pending,None
+        elif annul:
+            pc=(pc+8)&MASK
         else:
             pc=(pc+4)&MASK; pending=target
     raise ValueError('参考模型没有在步数上限内完成')
