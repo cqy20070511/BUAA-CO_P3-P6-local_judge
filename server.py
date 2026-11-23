@@ -4,12 +4,14 @@ import base64
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import importlib.util
 import json
+import os
 from pathlib import Path
+import re
 import socket
 import threading
 import time
 import uuid
-from urllib.parse import urlsplit,parse_qs
+from urllib.parse import urlsplit,parse_qs,unquote,quote
 from judge import ROOT,judge as p6_judge
 
 P3ROOT=ROOT/'p3'
@@ -26,6 +28,7 @@ CATALOG=None
 JOBS={}
 LOCK=threading.RLock()
 WORKER=threading.Lock()
+SUBMISSIONS=ROOT/'submissions'
 # 网页静态资源只允许这三项，避免把 runs/、tests/ 等目录暴露出去。
 STATIC={'/assets/styles.css':('styles.css','text/css; charset=utf-8'),
         '/assets/app.js':('app.js','text/javascript; charset=utf-8'),
@@ -57,6 +60,25 @@ def normalize(key):
 def snapshot(job):return {k:v for k,v in job.items() if not k.startswith('_')}
 
 
+def save_meta(job):
+    """把提交元数据写到 submissions/<id>/meta.json，服务重启后仍能在课下提交页看到。"""
+    try:
+        folder=SUBMISSIONS/job['id'];folder.mkdir(parents=True,exist_ok=True)
+        summary=job.get('summary') or {}
+        results=[{k:r.get(k) for k in ('id','label','title','status','message','cycles','budget') if k in r}
+                 for r in (summary.get('results') or [])]
+        data={'id':job.get('id'),'problem':job.get('problem'),'stage':job.get('stage'),
+              'encoding':job.get('encoding'),'state':job.get('state'),'message':job.get('message'),
+              'created':job.get('created'),'files':job.get('files_meta',[]),
+              'source_path':job.get('source_path')}
+        if summary:
+            data['summary']={k:summary.get(k) for k in ('passed','total','seconds','record')}
+            data['results']=results
+        (folder/'meta.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    except OSError:
+        pass
+
+
 def run_job(job,source):
     with WORKER:
         with LOCK:job['state']='running';job['message']='正在编译 RTL'
@@ -76,15 +98,18 @@ def run_job(job,source):
             with LOCK:job.update(state='done',message='评测完成',summary=result)
         except Exception as e:
             with LOCK:job.update(state='error',message=str(e))
+        save_meta(job)
 
 
 class Handler(BaseHTTPRequestHandler):
     def log_message(self,fmt,*args):pass
-    def send(self,status,body,content_type='application/json; charset=utf-8'):
+    def send(self,status,body,content_type='application/json; charset=utf-8',headers=None):
         if not isinstance(body,bytes):body=json.dumps(body,ensure_ascii=False).encode('utf-8')
         self.send_response(status);self.send_header('Content-Type',content_type)
         self.send_header('Content-Length',str(len(body)));self.send_header('Cache-Control','no-store')
-        self.send_header('X-Content-Type-Options','nosniff');self.end_headers();self.wfile.write(body)
+        self.send_header('X-Content-Type-Options','nosniff')
+        for name,value in (headers or {}).items():self.send_header(name,value)
+        self.end_headers();self.wfile.write(body)
     def do_GET(self):
         path=urlsplit(self.path).path
         if path=='/':return self.send(200,(ROOT/'index.html').read_bytes(),'text/html; charset=utf-8')
@@ -92,6 +117,25 @@ class Handler(BaseHTTPRequestHandler):
             name,kind=STATIC[path]
             return self.send(200,(ROOT/'assets'/name).read_bytes(),kind)
         if path=='/api/problems':return self.send(200,manifest())
+        if path=='/api/submissions':
+            items=[]
+            for meta in sorted(SUBMISSIONS.glob('*/meta.json'),key=lambda p:p.stat().st_mtime,reverse=True)[:200]:
+                try:items.append(json.loads(meta.read_text(encoding='utf-8')))
+                except (OSError,ValueError):pass
+            return self.send(200,items)
+        if path.startswith('/api/submissions/') and '/file/' in path:
+            rest=path[len('/api/submissions/'):]
+            job_id,_,name=rest.partition('/file/')
+            if not re.fullmatch(r'[a-f0-9]{32}',job_id):return self.send(404,{'error':'记录不存在'})
+            name=unquote(name)
+            relative=Path(name)
+            if not name or relative.name=='meta.json' or relative.is_absolute() or '..' in relative.parts or ':' in name:
+                return self.send(400,{'error':'文件名非法'})
+            base=(SUBMISSIONS/job_id).resolve();target=(base/relative).resolve()
+            if base!=target and base not in target.parents:return self.send(400,{'error':'文件名非法'})
+            if not target.is_file():return self.send(404,{'error':'文件不存在'})
+            disposition=f"attachment; filename*=UTF-8''{quote(relative.name)}"
+            return self.send(200,target.read_bytes(),'application/octet-stream',{'Content-Disposition':disposition})
         if path.startswith('/api/jobs/'):
             key=path.rsplit('/',1)[-1]
             with LOCK:item=snapshot(JOBS[key]) if key in JOBS else None
@@ -124,7 +168,8 @@ class Handler(BaseHTTPRequestHandler):
             if encoding not in ('practice','original'):raise ValueError('编码选项错误')
             if encoding=='original' and not spec['original']:raise ValueError('没有已核实的原编码')
             job_id=uuid.uuid4().hex
-            files=ROOT/'submissions'/job_id;files.mkdir(parents=True)
+            job_dir=ROOT/'submissions'/job_id;job_dir.mkdir(parents=True)
+            uploaded=[]
             if spec['stage']=='P3':
                 if request.get('source_path'):
                     source=Path(request['source_path']).expanduser().resolve()
@@ -137,7 +182,8 @@ class Handler(BaseHTTPRequestHandler):
                     if relative.suffix.lower()!='.circ':raise ValueError('P3 只接收 .circ 文件')
                     content=base64.b64decode(item['data'],validate=True)
                     if len(content)>20*1024*1024:raise ValueError('电路文件超过 20MB')
-                    source=files/relative.name;source.write_bytes(content)
+                    source=job_dir/relative.name;source.write_bytes(content)
+                    uploaded.append({'name':relative.name,'size':len(content)})
             elif request.get('source_path'):
                 source=Path(request['source_path']).expanduser().resolve()
                 if not source.exists():raise ValueError('源码路径不存在')
@@ -153,12 +199,14 @@ class Handler(BaseHTTPRequestHandler):
                     if name.lower() in seen:raise ValueError('同名文件重复')
                     seen.add(name.lower());content=base64.b64decode(item['data'],validate=True);total+=len(content)
                     if total>20*1024*1024:raise ValueError('源码总大小超过 20MB')
-                    target=files/relative;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(content)
-                zips=list(files.rglob('*.zip'))
+                    target=job_dir/relative;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(content)
+                    uploaded.append({'name':relative.as_posix(),'size':len(content)})
+                zips=list(job_dir.rglob('*.zip'))
                 if zips and (len(zips)!=1 or len(upload)!=1):raise ValueError('ZIP 必须单独上传')
-                source=zips[0] if zips else files
-            job=dict(id=job_id,problem=key,stage=spec['stage'],raw=spec['id'],encoding=encoding,state='queued',message='等待评测',results=[],created=time.time())
+                source=zips[0] if zips else job_dir
+            job=dict(id=job_id,problem=key,stage=spec['stage'],raw=spec['id'],encoding=encoding,state='queued',message='等待评测',results=[],created=time.time(),files_meta=uploaded,source_path=str(source) if request.get('source_path') else None)
             with LOCK:JOBS[job_id]=job
+            save_meta(job)
             threading.Thread(target=run_job,args=(job,source),daemon=True).start()
             return self.send(202,{'id':job_id})
         except (ValueError,KeyError,TypeError,OSError) as e:return self.send(400,{'error':str(e)})

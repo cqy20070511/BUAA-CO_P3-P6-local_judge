@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>P3 / P4 / P5 / P6 上机仿真评测</title>
+<title>BUAA CO · P3–P6 本地评测</title>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/styles.css">
 </head>
@@ -25,6 +25,8 @@
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M6.5 18.5a4.5 4.5 0 0 1-.6-8.96A7 7 0 0 1 19.3 9.8a4.2 4.2 0 0 1 .7 8.3"/><path d="M12 20.5V12M8.5 15.2 12 11.7l3.5 3.5"/></symbol>
   <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9.5 6 6 6-6"/></symbol>
   <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="m18 14.5-6-6-6 6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M20 12H4M10.5 5.5 4 12l6.5 6.5"/></symbol>
   <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="m7.2 12.4 3.1 3.1 6.4-6.4" fill="none" stroke="#fff" stroke-width="2.1"/></symbol>
   <symbol id="i-alert-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none"/><path d="M12 6.8v6.4M12 17.1h.01" fill="none" stroke="#fff" stroke-width="2.1"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
@@ -32,121 +34,294 @@
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5M4 21h16"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2.8 9 4.7-9 4.7-9-4.7z"/><path d="m3 12 9 4.7 9-4.7M3 16.6l9 4.7 9-4.7"/></symbol>
   <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" opacity=".25"/><path d="M4 13h4l2 3h4l2-3h4"/><path d="M4 13V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h3l5 4V5L7 9H4a1 1 0 0 0-1 1z"/><path d="M16 8.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12"/></symbol>
+  <symbol id="i-archive" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8M10 12h4"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2.5-7.5z"/><path d="M10.5 13.5 21 3"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
 </svg>
 
 <div class="app">
-  <nav class="rail" aria-label="页面导航">
-    <button class="rail-btn is-active" type="button" data-action="bank" title="题库"><svg class="icon"><use href="#i-list"/></svg></button>
-    <button class="rail-btn" type="button" data-action="help" data-topic="env" title="评测环境"><svg class="icon"><use href="#i-cube"/></svg></button>
-    <button class="rail-btn" type="button" data-action="records" title="提交记录"><svg class="icon"><use href="#i-terminal"/></svg></button>
-    <button class="rail-btn" type="button" data-action="files" title="选择源码文件"><svg class="icon"><use href="#i-file"/></svg></button>
-    <button class="rail-btn" type="button" data-action="help" data-topic="data" title="测试数据与日志"><svg class="icon"><use href="#i-db"/></svg></button>
-    <button class="rail-btn" type="button" data-action="history" title="提交统计"><svg class="icon"><use href="#i-chart"/></svg></button>
-    <button class="rail-btn" type="button" data-action="help" data-topic="guide" title="使用说明"><svg class="icon"><use href="#i-book"/></svg></button>
-  </nav>
+  <aside class="sidebar" aria-label="课程导航">
+    <a class="brand" href="#/announcements">
+      <span class="brand-mark">CO</span>
+      <span class="brand-text"><b>BUAA CO</b><small>P3–P6 本地评测</small></span>
+    </a>
 
-  <header class="topbar">
-    <button class="topbar-title" type="button" id="bankTitle" title="打开题库" aria-haspopup="dialog">题目<span class="title-chevron"><svg class="icon"><use href="#i-chevron-down"/></svg></span></button>
-    <div class="topbar-actions">
-      <div class="clock"><svg class="icon"><use href="#i-clock"/></svg><span id="clock">--:--:--</span></div>
-      <button class="icon-btn bell" type="button" id="bell" title="评测通知" aria-label="评测通知">
-        <svg class="icon"><use href="#i-bell"/></svg>
-        <span class="badge" id="badge" hidden>0</span>
-      </button>
-      <span class="avatar" title="本地练习用户" aria-hidden="true"><svg class="icon"><use href="#i-user"/></svg></span>
+    <nav class="nav">
+      <a class="nav-item" href="#/announcements" data-view="announcements" title="课程公告"><svg class="icon"><use href="#i-megaphone"/></svg><span>课程公告</span></a>
+      <a class="nav-item" href="#/submissions" data-view="submissions" title="课下提交"><svg class="icon"><use href="#i-archive"/></svg><span>课下提交</span></a>
+      <a class="nav-item" href="#/exams" data-view="exams" title="课上考试"><svg class="icon"><use href="#i-edit"/></svg><span>课上考试</span></a>
+      <a class="nav-item" href="#/discussion" data-view="discussion" title="讨论区"><svg class="icon"><use href="#i-chat"/></svg><span>讨论区</span></a>
+      <a class="nav-item" href="#/profile" data-view="profile" title="用户中心"><svg class="icon"><use href="#i-user"/></svg><span>用户中心</span></a>
+      <a class="nav-item" href="#/stats" data-view="stats" title="统计图"><svg class="icon"><use href="#i-chart"/></svg><span>统计图</span></a>
+      <a class="nav-item" href="#/tutorial" data-view="tutorial" title="实验教程"><svg class="icon"><use href="#i-book"/></svg><span>实验教程</span><svg class="icon nav-ext"><use href="#i-external"/></svg></a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="dot-live"></span>
+      <span>v1.1.0 · 2239 点</span>
     </div>
-  </header>
+  </aside>
 
-  <div class="page">
-    <main class="columns">
-      <section class="problem" aria-labelledby="problemTitle">
-        <div class="problem-head">
-          <h1 class="problem-title" id="problemTitle"><span class="qid" id="problemId">—</span><span id="problemName">加载中</span></h1>
-          <span class="tag">文件上传</span>
-          <span class="problem-meta" id="problemMeta">题目编号 —</span>
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="topbar-title" type="button" id="pageTitle">课程公告</button>
+        <span class="topbar-sub" id="pageSub">本地练习平台</span>
+      </div>
+      <div class="topbar-actions">
+        <div class="clock"><svg class="icon"><use href="#i-clock"/></svg><span id="clock">--:--:--</span></div>
+        <button class="icon-btn bell" type="button" id="bell" title="通知" aria-label="通知">
+          <svg class="icon"><use href="#i-bell"/></svg>
+          <span class="badge" id="badge" hidden>0</span>
+        </button>
+        <button class="avatar" type="button" id="topAvatar" title="用户中心" aria-label="用户中心">陈</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- 课程公告 -->
+      <section class="view" id="view-announcements">
+        <div class="page-intro">
+          <p>P3–P6 练习、评测与版本更新。所有内容只在本机保存。</p>
         </div>
-        <table class="stmt" id="statement"><tbody><tr><th scope="row">题面</th><td class="stmt-loading">正在读取题目…</td></tr></tbody></table>
-        <div class="problem-foot">
-          <button class="doc-link" type="button" data-action="help" data-topic="guide"><svg class="icon"><use href="#i-book"/></svg>P3 / P4 / P5 / P6 本地评测 · 判题规则</button>
-          <span class="source" id="source"></span>
+        <div class="notice-list" id="noticeList"></div>
+      </section>
+
+      <!-- 课下提交 -->
+      <section class="view" id="view-submissions" hidden>
+        <div class="page-intro">
+          <p>保存在这台电脑上的提交记录。可回看结果、下载当时上传的代码，或重新提交。</p>
+        </div>
+        <div class="submission-toolbar">
+          <div class="segmented" id="submissionFilter">
+            <button class="is-active" type="button" data-stage="all">全部</button>
+            <button type="button" data-stage="P3">P3</button>
+            <button type="button" data-stage="P4">P4</button>
+            <button type="button" data-stage="P5">P5</button>
+            <button type="button" data-stage="P6">P6</button>
+          </div>
+          <button class="btn ghost" type="button" id="refreshSubmissions"><svg class="icon"><use href="#i-refresh"/></svg>刷新</button>
+        </div>
+        <div class="submission-list" id="submissionList"><div class="empty-panel">正在读取提交记录…</div></div>
+      </section>
+
+      <!-- 课上考试 -->
+      <section class="view" id="view-exams" hidden>
+        <div class="page-intro">
+          <p>选择阶段进入对应题目页；题目抽屉只显示该阶段的题。四个阶段是四个独立页面。</p>
+        </div>
+        <div class="exam-grid" id="examGrid"></div>
+        <div class="exam-note">
+          <svg class="icon"><use href="#i-alert-circle"/></svg>
+          <span>P3 需要 Java 8+，P4/P5/P6 需要 Node.js 20+。P3 的 Logisim 电路必须是单 32 位 RAM 结构。</span>
         </div>
       </section>
 
-      <aside class="side">
-        <section class="card submit-card" id="submitCard" aria-labelledby="submitCardTitle">
-          <div class="card-head">
-            <h2 id="submitCardTitle">提交 <span class="card-title-tail" id="submitTitle">—</span></h2>
+      <!-- 题目 / 评测 -->
+      <section class="view" id="view-problem" hidden>
+        <div class="problem-page">
+          <div class="exam-bar">
+            <div class="exam-bar-left">
+              <a class="back-link" href="#/exams"><svg class="icon"><use href="#i-arrow-left"/></svg>课上考试</a>
+              <span class="exam-stage" id="examStageLabel">P3 上机考试</span>
+            </div>
+            <nav class="stage-tabs" id="stageTabs" aria-label="切换阶段">
+              <a href="#/exam/P3" data-stage="P3">P3</a>
+              <a href="#/exam/P4" data-stage="P4">P4</a>
+              <a href="#/exam/P5" data-stage="P5">P5</a>
+              <a href="#/exam/P6" data-stage="P6">P6</a>
+            </nav>
           </div>
-          <div class="card-body">
-            <div class="field">
-              <label class="field-label" for="encoding">选择编码</label>
-              <div class="select-row">
-                <svg class="icon select-icon"><use href="#i-cube"/></svg>
-                <div class="select-wrap">
-                  <select id="encoding" aria-label="选择编码"></select>
-                  <svg class="icon chevron"><use href="#i-chevron-down"/></svg>
+
+          <main class="columns">
+            <section class="problem" aria-labelledby="problemTitle">
+              <div class="problem-head">
+                <h1 class="problem-title" id="problemTitle"><span class="qid" id="problemId">—</span><span id="problemName">加载中</span></h1>
+                <span class="tag">文件上传</span>
+                <span class="problem-meta" id="problemMeta">题目编号 —</span>
+              </div>
+              <table class="stmt" id="statement"><tbody><tr><th scope="row">题面</th><td class="stmt-loading">正在读取题目…</td></tr></tbody></table>
+              <div class="problem-foot">
+                <button class="doc-link" type="button" data-action="help" data-topic="guide"><svg class="icon"><use href="#i-book"/></svg>P3 / P4 / P5 / P6 本地评测 · 判题规则</button>
+                <span class="source" id="source"></span>
+              </div>
+            </section>
+
+            <aside class="side">
+              <section class="card submit-card" id="submitCard" aria-labelledby="submitCardTitle">
+                <div class="card-head">
+                  <h2 id="submitCardTitle">提交 <span class="card-title-tail" id="submitTitle">—</span></h2>
                 </div>
-              </div>
-              <p class="field-note" id="encodingNote"></p>
-            </div>
+                <div class="card-body">
+                  <div class="field">
+                    <label class="field-label" for="encoding">选择编码</label>
+                    <div class="select-row">
+                      <svg class="icon select-icon"><use href="#i-cube"/></svg>
+                      <div class="select-wrap">
+                        <select id="encoding" aria-label="选择编码"></select>
+                        <svg class="icon chevron"><use href="#i-chevron-down"/></svg>
+                      </div>
+                    </div>
+                    <p class="field-note" id="encodingNote"></p>
+                  </div>
 
-            <div class="upload-row">
-              <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="点击或拖拽选择源码文件">
-                <svg class="icon clip"><use href="#i-paperclip"/></svg>
-                <span class="drop-text" id="dropText">点击/拖拽选择文件</span>
-              </div>
-              <input type="file" id="files" multiple accept=".zip,.v,.vh,.circ" hidden>
-              <button class="submit-btn" id="submit" type="button" disabled>
-                <svg class="icon"><use href="#i-upload"/></svg><span>提交</span>
-              </button>
-            </div>
-            <ul class="file-list" id="fileList"></ul>
-            <p class="form-hint"><span id="uploadHint">ZIP 或全部 .v / .vh，20 MB 以内</span><span class="dot">·</span><button class="text-link" type="button" id="togglePath">填写本机源码目录</button></p>
-            <div class="path-row" id="pathRow" hidden>
-              <input id="sourcePath" type="text" spellcheck="false" placeholder="例如 C:\Users\Public\Documents\ISE_projects\Q11">
-            </div>
-
-            <p class="form-msg" id="message" role="status" aria-live="polite"></p>
-          </div>
-        </section>
-
-        <section class="card records" id="recordsCard" aria-labelledby="recordsTitle">
-          <div class="card-head">
-            <h2 id="recordsTitle">提交记录</h2>
-            <button class="link" type="button" id="historyLink">查看提交历史</button>
-          </div>
-          <div class="card-body">
-            <div class="empty" id="emptyState">
-              <svg class="icon empty-icon"><use href="#i-inbox"/></svg>
-              <p class="empty-title">尚未提交</p>
-              <p>选择源码后点击提交，测试点结果会实时显示在这里。</p>
-            </div>
-
-            <div id="record" hidden>
-              <dl class="meta">
-                <div><dt>ID</dt><dd class="mono" id="jobId">—</dd></div>
-                <div><dt>提交时间</dt><dd id="jobTime">—</dd></div>
-                <div class="verdict-row">
-                  <dt>评测结果</dt>
-                  <dd class="verdict">
-                    <span class="verdict-icon" id="verdictIcon"></span>
-                    <span class="verdict-text" id="verdictText"></span>
-                    <button class="icon-btn small" type="button" id="toggleCases" aria-label="收起测试点结果" title="收起测试点结果"><svg class="icon"><use href="#i-chevron-up"/></svg></button>
-                  </dd>
+                  <div class="upload-row">
+                    <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="点击或拖拽选择源码文件">
+                      <svg class="icon clip"><use href="#i-paperclip"/></svg>
+                      <span class="drop-text" id="dropText">点击/拖拽选择文件</span>
+                    </div>
+                    <input type="file" id="files" multiple accept=".zip,.v,.vh,.circ" hidden>
+                    <button class="submit-btn" id="submit" type="button" disabled>
+                      <svg class="icon"><use href="#i-upload"/></svg><span>提交</span>
+                    </button>
+                  </div>
+                  <ul class="file-list" id="fileList"></ul>
+                  <p class="form-hint"><span id="uploadHint">ZIP 或全部 .v / .vh，20 MB 以内</span><span class="dot">·</span><button class="text-link" type="button" id="togglePath">填写本机源码目录</button></p>
+                  <div class="path-row" id="pathRow" hidden>
+                    <input id="sourcePath" type="text" spellcheck="false" placeholder="例如 C:\Users\Public\Documents\ISE_projects\Q11">
+                  </div>
+                  <p class="form-msg" id="message" role="status" aria-live="polite"></p>
                 </div>
-              </dl>
-              <div class="progress" id="progress" hidden><div class="bar" id="bar"></div></div>
-              <p class="summary" id="summary"></p>
-              <ul class="cases" id="cases"></ul>
-              <div class="record-foot">
-                <button class="link with-icon" type="button" id="download" hidden><svg class="icon"><use href="#i-download"/></svg>下载本次结果 JSON</button>
-                <span class="record-path" id="recordPath"></span>
-              </div>
+              </section>
+
+              <section class="card records" id="recordsCard" aria-labelledby="recordsTitle">
+                <div class="card-head">
+                  <h2 id="recordsTitle">提交记录</h2>
+                  <button class="link" type="button" id="historyLink">查看提交历史</button>
+                </div>
+                <div class="card-body">
+                  <div class="empty" id="emptyState">
+                    <svg class="icon empty-icon"><use href="#i-inbox"/></svg>
+                    <p class="empty-title">尚未提交</p>
+                    <p>选择源码后点击提交，测试点结果会实时显示在这里。</p>
+                  </div>
+                  <div id="record" hidden>
+                    <dl class="meta">
+                      <div><dt>ID</dt><dd class="mono" id="jobId">—</dd></div>
+                      <div><dt>提交时间</dt><dd id="jobTime">—</dd></div>
+                      <div class="verdict-row">
+                        <dt>评测结果</dt>
+                        <dd class="verdict">
+                          <span class="verdict-icon" id="verdictIcon"></span>
+                          <span class="verdict-text" id="verdictText"></span>
+                          <button class="icon-btn small" type="button" id="toggleCases" aria-label="收起测试点结果" title="收起测试点结果"><svg class="icon"><use href="#i-chevron-up"/></svg></button>
+                        </dd>
+                      </div>
+                    </dl>
+                    <div class="progress" id="progress" hidden><div class="bar" id="bar"></div></div>
+                    <p class="summary" id="summary"></p>
+                    <ul class="cases" id="cases"></ul>
+                    <div class="record-foot">
+                      <button class="link with-icon" type="button" id="download" hidden><svg class="icon"><use href="#i-download"/></svg>下载本次结果 JSON</button>
+                      <span class="record-path" id="recordPath"></span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </main>
+        </div>
+      </section>
+
+      <!-- 讨论区 -->
+      <section class="view" id="view-discussion" hidden>
+        <div class="page-intro between">
+          <div><p>记录做题经验、踩坑和想法。内容只保存在本浏览器。</p></div>
+          <button class="btn primary" type="button" id="newPost"><svg class="icon"><use href="#i-plus"/></svg>发布经验</button>
+        </div>
+        <div class="tag-row" id="postTags">
+          <button class="chip is-active" type="button" data-tag="all">全部</button>
+          <button class="chip" type="button" data-tag="P3">P3</button>
+          <button class="chip" type="button" data-tag="P4">P4</button>
+          <button class="chip" type="button" data-tag="P5">P5</button>
+          <button class="chip" type="button" data-tag="P6">P6</button>
+          <button class="chip" type="button" data-tag="经验">经验</button>
+          <button class="chip" type="button" data-tag="求助">求助</button>
+        </div>
+        <div class="post-grid" id="postList"></div>
+      </section>
+
+      <!-- 用户中心 -->
+      <section class="view" id="view-profile" hidden>
+        <div class="page-intro">
+          <p>这些信息只用于本地页面的称呼与头像，不会上传到任何服务器。</p>
+        </div>
+        <div class="profile-layout">
+          <section class="card profile-preview">
+            <div class="big-avatar" id="profileAvatar">陈</div>
+            <h2 id="profilePreviewName">陈清扬</h2>
+            <p id="profilePreviewMeta">25371127 · 2026 秋季课程</p>
+            <dl class="profile-facts">
+              <div><dt>已提交</dt><dd id="profileFactSubmissions">0</dd></div>
+              <div><dt>已通过</dt><dd id="profileFactPassed">0</dd></div>
+              <div><dt>加入</dt><dd id="profileFactJoined">—</dd></div>
+            </dl>
+          </section>
+          <section class="card profile-form-card">
+            <div class="card-head"><h2>基本信息</h2></div>
+            <div class="card-body">
+              <form id="profileForm">
+                <label class="form-field"><span>姓名</span><input id="profileName" maxlength="20" autocomplete="name"></label>
+                <label class="form-field"><span>学号 / 用户名</span><input id="profileUsername" maxlength="24" autocomplete="username"></label>
+                <label class="form-field"><span>邮箱</span><input id="profileEmail" type="email" maxlength="80" autocomplete="email"></label>
+                <label class="form-field"><span>当前课程</span><input id="profileCourse" maxlength="30"></label>
+                <label class="form-field"><span>头像颜色</span>
+                  <select id="profileColor">
+                    <option value="#5c6bc0">靛蓝</option>
+                    <option value="#00897b">青绿</option>
+                    <option value="#8e24aa">紫色</option>
+                    <option value="#ef6c00">橙色</option>
+                    <option value="#546e7a">蓝灰</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button class="btn primary" type="submit">保存设置</button>
+                  <button class="btn ghost" type="button" id="profileReset">恢复默认</button>
+                </div>
+              </form>
             </div>
-          </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- 统计图 -->
+      <section class="view" id="view-stats" hidden>
+        <div class="page-intro">
+          <p>根据本机提交记录统计练习覆盖、阶段通过率和提交活跃度。</p>
+        </div>
+        <div class="stat-cards" id="statCards"></div>
+        <div class="chart-grid">
+          <section class="card chart-card">
+            <div class="card-head"><h2>练习覆盖热力图</h2><span class="card-hint">每格一道题</span></div>
+            <div class="chart-body"><div class="heatmap" id="coverageHeatmap"></div></div>
+          </section>
+          <section class="card chart-card">
+            <div class="card-head"><h2>能力雷达</h2><span class="card-hint">0–100</span></div>
+            <div class="chart-body radar-wrap"><svg id="radarChart" viewBox="0 0 300 280" role="img" aria-label="能力雷达图"></svg></div>
+          </section>
+        </div>
+        <section class="card stage-card">
+          <div class="card-head"><h2>各阶段进度</h2><span class="card-hint">按已通过题组计算</span></div>
+          <div class="card-body" id="stageStats"></div>
         </section>
-      </aside>
-    </main>
+      </section>
+
+      <!-- 实验教程 -->
+      <section class="view" id="view-tutorial" hidden>
+        <div class="page-intro">
+          <p>启动、提交、判题规则与常见问题。更完整的说明在压缩包的 <code>使用说明.md</code>。</p>
+        </div>
+        <div class="tutorial-layout" id="tutorialBody"></div>
+      </section>
+    </div>
   </div>
 </div>
 
@@ -154,7 +329,7 @@
 
 <aside class="drawer" id="drawer" hidden aria-label="题库">
   <div class="drawer-head">
-    <h2>题库</h2>
+    <h2 id="drawerTitle">题库</h2>
     <button class="icon-btn small" type="button" id="drawerClose" aria-label="关闭题库"><svg class="icon"><use href="#i-x"/></svg></button>
   </div>
   <label class="search-box">
