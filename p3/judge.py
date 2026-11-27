@@ -23,7 +23,8 @@ def manifest():
 def find_java():
     candidates = []
     if os.environ.get("JAVA_HOME"):
-        candidates.append(Path(os.environ["JAVA_HOME"]) / "bin" / "java.exe")
+        for name in ("java.exe", "java"):
+            candidates.append(Path(os.environ["JAVA_HOME"]) / "bin" / name)
     found = shutil.which("java")
     if found:
         candidates.append(Path(found))
@@ -55,8 +56,8 @@ def judge(problem, source, on_result=None, timeout=1800):
     out.parent.mkdir(parents=True, exist_ok=True)
     if out.exists():
         raise RuntimeError("结果目录已存在")
-    classpath = f"{JAR};{LIB / '*'}"
-    command = [java, "-Dfile.encoding=UTF-8", "-Xmx768m", "-cp", classpath, "PracticeRunner",
+    classpath = f"{JAR}{os.pathsep}{LIB / '*'}"
+    command = [java, "-Dfile.encoding=UTF-8", "-Djava.awt.headless=true", "-Xmx768m", "-cp", classpath, "PracticeRunner",
                "--root", str(ROOT), "--cpu", str(source), "--exercise", spec["id"], "--out", str(out)]
     started = time.time()
     results = []

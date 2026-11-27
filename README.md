@@ -2,9 +2,9 @@
 
 北航「计算机组成原理」P3—P6 的**本地网页评测器**，把 Logisim 单周期 CPU（P3）、Verilog 单周期 CPU（P4/P5）和流水线 CPU（P6）的题面、提交、逐点判题、提交记录和练习统计放在同一个本机页面里。
 
-当前版本 **v1.1.0**：在 v1.0.0 的题面 / 提交双栏之上，增加了参考课程平台的左侧导航和七个功能页面。
+当前版本 **v1.1.1**：在 v1.0.0 的题面 / 提交双栏之上，增加了参考课程平台的左侧导航和七个功能页面。
 
-- **123 个题组、2239 个测试点**：P3 26/283、P4 18/60、P5 40/960、P6 39/936。
+- **126 个题组、2311 个测试点**：P3 26/283、P4 18/60、P5 40/960、P6 42/1008。
 - 只监听 `127.0.0.1`，不联网；P3 用随包的 Java + Logisim，P4/P5/P6 用随包的 Icarus WebAssembly。
 - 课程公告、课下提交、课上考试、讨论区、用户中心、统计图、实验教程。
 - 进入 P3 / P4 / P5 / P6 后，题目抽屉只显示该阶段；四个阶段是四个独立页面。
@@ -45,7 +45,7 @@
 | P3 | BASE + E01—E25 加指令练习 | 283 | Logisim `main`，8 个输出 | Java 8+ / Logisim 2.7.1 |
 | P4 | 14 道加指令练习 + 2025 真题 | 60 | `mips(clk, reset)`，无延迟槽 | Icarus wasm（可 native） |
 | P5 | 29 往年 + 10 模拟 + BLZTAL | 960 | `mips(clk, reset)`，有延迟槽 | Icarus wasm（可 native） |
-| P6 | 24 往年 + 15 模拟 | 936 | 外置 IM/DM，随包 testbench | Icarus wasm（可 native） |
+| P6 | 24 往年 + 15 模拟 + Q25–Q27 | 1008 | 外置 IM/DM，随包 testbench | Icarus wasm（可 native） |
 
 P3 评测器要求单一 32 位 RAM（4096 字，有效 3072 字）和课程 8 输出接口；四块 8 位 RAM 分银行的电路会报“存储器尺寸不匹配”。
 
@@ -67,8 +67,25 @@ python prepare_data.py
 
 浏览器打开 <http://127.0.0.1:8766>。如果提示端口被占用，先关闭旧的评测机窗口。
 
-> P3 / P4 的 283 + 60 个测试点随仓库提供；`prepare_data.py` 只生成 P5 / P6 的 960 + 936 点（约 87 MB，已加入 `.gitignore`）。
+> P3 / P4 的 283 + 60 个测试点随仓库提供；`prepare_data.py` 只生成 P5 / P6 的 960 + 1008 点（约 87 MB，已加入 `.gitignore`）。
 
+## 部署到 Render
+
+仓库里已经带 `Dockerfile` 和 `render.yaml`，可以直接用 Render 的 Blueprint 部署：
+
+1. Render Dashboard → **New → Blueprint**，连接仓库 `BUAA-CO_P3-P6-local_judge`，分支 `main`；
+2. Render 读取 `render.yaml`，创建 Standard（2 GB）新加坡服务、1 GB 持久磁盘；
+3. 按提示设置 `ACCESS_CODE`（访问码，建议长随机串）；
+4. Apply，等待 Docker 构建；构建时会运行 `prepare_data.py` 生成 P5 / P6 测试点；
+5. 打开生成的 `https://buaa-co-p3-p6-judge.onrender.com`（名称重复时会带后缀），输入访问码。
+
+说明：
+
+- P3 的 Java 需要 2 GB 内存，Starter 512 MB 容易 OOM；`render.yaml` 默认 `plan: standard`。
+- `ALLOW_SOURCE_PATH=0`，公网版只接受上传，不允许填写服务器本机路径。
+- 磁盘只挂载 `/app/submissions`，提交记录和上传文件会保留；`runs/` 等运行日志在实例重启后失效。
+- `ACCESS_CODE` 为空时站点对所有人开放；公开部署请务必设置。
+- 这只是访问码，不是完整多用户认证；判题进程仍在服务容器内运行，不建议对完全陌生的人开放。
 ## 页面与路由
 
 ```text
@@ -148,7 +165,7 @@ tests/                 P6 测试点（生成）
 tools/, runtime/       wasm runner、Icarus WebAssembly
 docs/images/           README 截图
 使用说明.md             四阶段与网页导航、数据说明
-网页改版说明.md          v1.1.0 多页面、路由、API、验证
+网页改版说明.md          v1.1.1 多页面、路由、API、验证
 ```
 
 P3 / P4 / P5 / P6 的题面、编码和测试点保持各自原包不变；网页只负责展示、提交和逐点结果。
@@ -162,7 +179,7 @@ P3 / P4 / P5 / P6 的题面、编码和测试点保持各自原包不变；网�
 | P4-SPE / CABC / LHBOC / MIXED | 7/7、5/5、5/5、1/1，合计 18 / 18 AC |
 | P5-Q01 cco | 24 / 24 AC |
 | P6-Q11 shl（原平台编码） | 24 / 24 AC |
-| 题库接口 | 123 题，分组 26 / 14+4 / 29+10+1 / 24+15 |
+| 题库接口 | 126 题，分组 26 / 14+4 / 29+10+1 / 24+15+3 |
 | 页面 | 1750×963、1024×800、390×844 无横向溢出 |
 | 课下提交 | 3 条记录、P3 上传文件可下载；服务重启后 meta 仍可读 |
 | 讨论区 / 用户中心 / 统计图 | 发帖、评论、标签筛选、删除、头像同步、热力图与雷达正常 |

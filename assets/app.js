@@ -1,5 +1,45 @@
 'use strict';
 
+const ACCESS_KEY = 'p6web.access.v1';
+(() => {
+  const nativeFetch = window.fetch.bind(window);
+  const secure = location.protocol === 'https:' ? '; Secure' : '';
+  const setCookie = (code) => {
+    document.cookie = `judge_code=${encodeURIComponent(code)}; Path=/; SameSite=Lax${secure}`;
+  };
+  const clearCookie = () => {
+    document.cookie = 'judge_code=; Max-Age=0; Path=/';
+  };
+  let prompted = false;
+  window.fetch = (input, init = {}) => {
+    let code = '';
+    try { code = localStorage.getItem(ACCESS_KEY) || ''; } catch { /* 忽略本地存储错误 */ }
+    if (code) {
+      setCookie(code);
+      const headers = new Headers(init.headers || {});
+      headers.set('X-Access-Code', code);
+      init = { ...init, headers };
+    }
+    return nativeFetch(input, init).then((response) => {
+      if (response.status === 401) {
+        try { localStorage.removeItem(ACCESS_KEY); } catch { /* 忽略 */ }
+        clearCookie();
+        if (!prompted) {
+          prompted = true;
+          const entered = window.prompt('请输入本站访问码');
+          if (entered) {
+            const value = entered.trim();
+            try { localStorage.setItem(ACCESS_KEY, value); } catch { /* 忽略 */ }
+            setCookie(value);
+            window.location.reload();
+          }
+        }
+      }
+      return response;
+    });
+  };
+})();
+
 /* P6 本地评测前端：题面渲染、文件提交、实时结果与历史记录。 */
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -1003,6 +1043,18 @@ const VIEW_META = {
 const ANNOUNCEMENTS = [
   {
     date: '2026-11-23',
+    tag: 'P6 更新',
+    title: 'P6 新增 Q25 mrb、Q26 bel、Q27 lnb 三道题',
+    body: `<p>P6 从 39 题 / 936 点扩展到 <b>42 题 / 1008 点</b>，新增三道题，每题 24 个测试点；全站变为 <b>126 个题组 / 2311 个测试点</b>。</p>
+      <ul>
+        <li><b>Q25 mrb</b>：rs 加 LO 后循环左移 LO[4:0]，结果写 rd；再与 rt 作无符号乘法，按字节反转位序，写 HI/LO。</li>
+        <li><b>Q26 bel</b>：逐字节比较 rs / rt，恰好一对相等时执行延迟槽后跳转，并把 PC+8 链接到命中字节低 5 位指定的寄存器。</li>
+        <li><b>Q27 lnb</b>：读取整字，以 rt 低 8 位为参考选绝对差最小的字节，零扩展写入 rt+idx。</li>
+      </ul>`,
+    actions: [['#/exam/P6', '打开 P6'], ['#/problem/P6-Q25', '直接看 Q25']],
+  },
+  {
+    date: '2026-11-23',
     tag: '更新',
     title: 'v1.1.0：课程平台式导航上线',
     body: `<p>左侧导航改成课程平台的多页面结构，原来的题目 / 提交双栏仍然保留在「课上考试」里。</p>
@@ -1020,7 +1072,7 @@ const ANNOUNCEMENTS = [
     tag: '版本',
     cls: 'green',
     title: 'P3–P6 本地评测器 v1.0.0',
-    body: `<p>P3 加指令练习、P4 加指令练习与 2025 真题、P5、P6 已合并到同一个本机页面，共 <b>123 个题组、2239 个测试点</b>。</p>
+    body: `<p>P3 加指令练习、P4 加指令练习与 2025 真题、P5、P6 已合并到同一个本机页面，共 <b>126 个题组、2311 个测试点</b>。</p>
       <p>P3 使用 Logisim 2.7.1，需要 Java 8+；P4 / P5 / P6 使用随包的 Icarus WebAssembly，需要 Node.js 20+。</p>`,
     actions: [['#/exams', '开始练习']],
   },
@@ -1624,7 +1676,7 @@ function openHistory() {
 
 const HELP_HTML = `
   <h3>这是什么</h3>
-  <p>本页面是 P3 / P4 / P5 / P6 练习包的本机评测页：P3 的 26 个题组（283 点）、P4 的 18 个题组（60 点）、P5 的 40 道题（960 点）、P6 的 39 道题（936 点），共 123 个题组、2239 个测试点。页面只监听 <code>127.0.0.1</code>。</p>
+  <p>本页面是 P3 / P4 / P5 / P6 练习包的本机评测页：P3 的 26 个题组（283 点）、P4 的 18 个题组（60 点）、P5 的 40 道题（960 点）、P6 的 42 道题（1008 点），共 126 个题组、2311 个测试点。页面只监听 <code>127.0.0.1</code>。</p>
   <h3>使用步骤</h3>
   <p>1. 在题库中选择题目，确认编码模式；<br>
      2. P3 提交一个 Logisim <code>.circ</code> 文件；P4 / P5 / P6 提交 ZIP 或全部 <code>.v</code> / <code>.vh</code> 文件；<br>

@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: buaa-co-p3-p6-judge
+    runtime: docker
+    plan: standard
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    autoDeploy: true
+    numInstances: 1
+    disk:
+      name: judge-submissions
+      mountPath: /app/submissions
+      sizeGB: 1
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: ALLOW_SOURCE_PATH
+        value: "0"
+      - key: ACCESS_CODE
+        sync: false

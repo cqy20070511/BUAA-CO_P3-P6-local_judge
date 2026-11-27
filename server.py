@@ -29,6 +29,8 @@ JOBS={}
 LOCK=threading.RLock()
 WORKER=threading.Lock()
 SUBMISSIONS=ROOT/'submissions'
+ACCESS_CODE=os.environ.get('ACCESS_CODE','').strip()
+ALLOW_SOURCE_PATH=os.environ.get('ALLOW_SOURCE_PATH','1').strip().lower() not in ('0','false','no')
 # 网页静态资源只允许这三项，避免把 runs/、tests/ 等目录暴露出去。
 STATIC={'/assets/styles.css':('styles.css','text/css; charset=utf-8'),
         '/assets/app.js':('app.js','text/javascript; charset=utf-8'),
@@ -103,6 +105,14 @@ def run_job(job,source):
 
 class Handler(BaseHTTPRequestHandler):
     def log_message(self,fmt,*args):pass
+    def allowed(self):
+        if not ACCESS_CODE:return True
+        if self.headers.get('X-Access-Code','')==ACCESS_CODE:return True
+        cookie=self.headers.get('Cookie','')
+        for part in cookie.split(';'):
+            name,_,value=part.strip().partition('=')
+            if name=='judge_code' and unquote(value)==ACCESS_CODE:return True
+        return False
     def send(self,status,body,content_type='application/json; charset=utf-8',headers=None):
         if not isinstance(body,bytes):body=json.dumps(body,ensure_ascii=False).encode('utf-8')
         self.send_response(status);self.send_header('Content-Type',content_type)
@@ -112,6 +122,7 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers();self.wfile.write(body)
     def do_GET(self):
         path=urlsplit(self.path).path
+        if path.startswith('/api/') and not self.allowed():return self.send(401,{'error':'需要访问码'})
         if path=='/':return self.send(200,(ROOT/'index.html').read_bytes(),'text/html; charset=utf-8')
         if path in STATIC:
             name,kind=STATIC[path]
@@ -154,7 +165,9 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         # 阻止其他网页跨站向本机服务发起有副作用的请求。
         origin=self.headers.get('Origin')
-        if origin and origin!=('http://'+self.headers.get('Host','')):return self.send(403,{'error':'仅接受本机评测页面的请求'})
+        proto=self.headers.get('X-Forwarded-Proto','http')
+        if origin and origin!=(f'{proto}://'+self.headers.get('Host','')):return self.send(403,{'error':'仅接受本站页面的请求'})
+        if not self.allowed():return self.send(401,{'error':'需要访问码'})
         if urlsplit(self.path).path!='/api/jobs':return self.send(404,{'error':'地址不存在'})
         try:
             length=int(self.headers.get('Content-Length','0'))
@@ -170,6 +183,7 @@ class Handler(BaseHTTPRequestHandler):
             job_id=uuid.uuid4().hex
             job_dir=ROOT/'submissions'/job_id;job_dir.mkdir(parents=True)
             uploaded=[]
+            if request.get('source_path') and not ALLOW_SOURCE_PATH:raise ValueError('公网部署不允许填写本机路径，请上传文件')
             if spec['stage']=='P3':
                 if request.get('source_path'):
                     source=Path(request['source_path']).expanduser().resolve()
@@ -213,14 +227,17 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8766);args=parser.parse_args()
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--host',default=os.environ.get('HOST','127.0.0.1'))
+    parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','8766')))
+    args=parser.parse_args()
     with socket.socket() as probe:
         probe.settimeout(.4)
         if probe.connect_ex(('127.0.0.1',args.port))==0:
             print(f'端口 {args.port} 已有评测机在运行，请先关闭原窗口，或改用 --port 其他端口。',flush=True)
             return
-    server=ThreadingHTTPServer(('127.0.0.1',args.port),Handler)
-    print(f'P3 / P4 / P5 / P6 评测器已启动：http://127.0.0.1:{args.port}  （按 Ctrl+C 退出）',flush=True)
+    server=ThreadingHTTPServer((args.host,args.port),Handler)
+    print(f'P3 / P4 / P5 / P6 评测器已启动：http://{args.host}:{args.port}  （按 Ctrl+C 退出）',flush=True)
     try:server.serve_forever()
     except KeyboardInterrupt:pass
     finally:server.server_close()
