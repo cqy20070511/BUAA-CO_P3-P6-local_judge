@@ -1902,6 +1902,12 @@ function bindEvents() {
 
 async function init() {
   bindEvents();
+  if (!['127.0.0.1', 'localhost'].includes(location.hostname)) {
+    const toggle = $('#togglePath');
+    if (toggle) toggle.hidden = true;
+    const pathRow = $('#pathRow');
+    if (pathRow) pathRow.hidden = true;
+  }
   updateClock();
   setInterval(updateClock, 1000);
   state.profile = loadProfile();
