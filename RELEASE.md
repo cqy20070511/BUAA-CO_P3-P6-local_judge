@@ -1,16 +1,26 @@
-# 发布说明 · v1.1.1
+# 发布说明 · v1.2.0
 
-日期：2026-11-23
+日期：2026-11-28
 
 ## 这是什么
 
-北航计组 P3—P6 本地网页评测器的课程平台式多页面版本：
+北航计组 P3—P7 本地网页评测器的课程平台式多页面版本：
 
 - P3：BASE + E01—E25，26 个题组、283 点，Logisim 2.7.1 `.circ`；
 - P4：14 道加指令练习 + 2025 真题，18 个题组、60 点；
 - P5：40 题、960 点；
-- P6：42 题、1008 点（含新增 Q25 mrb / Q26 bel / Q27 lnb）；
-- 合计 126 个题组、2311 个测试点。
+- P6：42 题、1008 点（含 Q25 mrb / Q26 bel / Q27 lnb）；
+- P7：12 个题组、488 点（基本强测 224 + 课上题 Q01—Q11 共 264）；
+- 合计 138 个题组、2799 个测试点。
+
+## v1.2.0 新增
+
+- P7 五级流水线 CPU 强测与 11 道课上题：
+  - BASE：B001—B224，覆盖原有指令、冒险、CP0、异常、外部中断、双 Timer、运行中复位；
+  - Q01 syscall、Q02 teq、Q03 tltiu、Q04 kernel space、Q05 privileged instruction；
+  - Q06 EBase、Q07 withdraw、Q08 Watch、Q09 Memory Limitation、Q10 monitor、Q11 Integer Overflow。
+- 新增 `p7/judge.py`、`p7/protocol/port_capture_tb.v` 和 488 点测试；网页新增 P7 阶段、P7 题库与考试卡。
+- 用原始 P7 CPU 实测：BASE **224 / 224 AC**；Q01 syscall **24 / 24 AC**。
 
 ## v1.1.1 新增
 

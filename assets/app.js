@@ -59,12 +59,13 @@ const PROFILE_KEY = 'p6web.profile.v1';
 const POSTS_KEY = 'p6web.posts.v1';
 const MAX_HISTORY = 100;
 
-const STAGES = ['P3', 'P4', 'P5', 'P6'];
+const STAGES = ['P3', 'P4', 'P5', 'P6', 'P7'];
 const STAGE_INFO = {
   P3: { title: 'Logisim 单周期 CPU', backend: 'Java + Logisim', color: 'P3' },
   P4: { title: 'Verilog 单周期 CPU', backend: 'Icarus WebAssembly', color: 'P4' },
   P5: { title: '五级流水线 CPU', backend: 'Icarus WebAssembly', color: 'P5' },
   P6: { title: '流水线 + 外置 IM/DM', backend: 'Icarus WebAssembly', color: 'P6' },
+  P7: { title: '流水线 + CP0/异常/中断', backend: 'Icarus WebAssembly', color: 'P7' },
 };
 
 const state = {
@@ -370,7 +371,10 @@ function exampleFor(format) {
 
 function encodingTable(spec) {
   const raw = bitsFor(spec, state.encoding);
-  if (!raw) return `<div class="muted">${spec.id === 'BASE' ? 'BASE 不新增指令编码。' : '本题没有这种编码。'}</div>`;
+  if (!raw) {
+    if (spec.encoding_note) return `<div class="fmt" style="font-family:var(--font);font-size:13.5px">${esc(spec.encoding_note)}</div>`;
+    return `<div class="muted">${spec.id === 'BASE' ? 'BASE 不新增指令编码。' : '本题没有这种编码。'}</div>`;
+  }
   const parts = raw.trim().split(/\s+/);
   const isR = parts.length === 6;
   const isJ = parts.length === 2;
@@ -416,7 +420,7 @@ function renderStatement() {
   $('#problemMeta').textContent = `题目编号 ${label}`;
   $('#submitTitle').textContent = `${label} ${spec.name}`;
   $('#source').textContent = spec.source ? `来源 ${spec.source}` : '';
-  document.title = `${label} ${spec.name} · P3 / P4 / P5 / P6 上机评测`;
+  document.title = `${label} ${spec.name} · P3 / P4 / P5 / P6 / P7 上机评测`;
   const hint = $('#uploadHint');
   if (hint) hint.textContent = spec.stage === 'P3' ? '选择一个 Logisim .circ，20 MB 以内' : 'ZIP 或全部 .v / .vh，20 MB 以内';
 
@@ -453,6 +457,8 @@ function renderEncodingOptions() {
       : 'P4 加指令练习使用题目册规定的练习编码；CPU 需按课程格式输出写入日志。';
   } else if (spec.stage === 'P5') {
     $('#encodingNote').textContent = 'P5 题目只提供题目册中的练习编码，没有原平台存档编码。';
+  } else if (spec.stage === 'P7') {
+    $('#encodingNote').textContent = 'P7 使用题目册练习编码；提交 Verilog 工程，顶层为 mips，端口按 P7 接口规范。';
   } else {
     $('#encodingNote').textContent = spec.original
       ? '本题提供原平台存档编码。请按 Controller 实际使用的 funct 选择，两种编码不会自动混用。'
@@ -470,6 +476,7 @@ function buildBankList(filter = '') {
     { stage: 'P4', group: 'exam2025', label: '2025 真题' },
     { stage: 'P5', prefix: 'Q', label: '往年题' }, { stage: 'P5', prefix: 'M', label: '模拟题' }, { stage: 'P5', prefix: 'X', label: 'BLZTAL 补充题' },
     { stage: 'P6', prefix: 'Q', label: '往年题' }, { stage: 'P6', prefix: 'M', label: '模拟题' },
+    { stage: 'P7', group: 'base', label: '基本强测' }, { stage: 'P7', group: 'exam', label: '课上题' },
   ].filter((desc) => !state.stage || desc.stage === state.stage);
   let html = '';
   let shown = 0;
@@ -1033,7 +1040,7 @@ async function openHistoryEntry(id) {
 const VIEW_META = {
   announcements: { title: '课程公告', sub: '本地练习平台 · 版本与说明' },
   submissions: { title: '课下提交', sub: '本机保存的代码与结果' },
-  exams: { title: '课上考试', sub: 'P3 / P4 / P5 / P6' },
+  exams: { title: '课上考试', sub: 'P3 / P4 / P5 / P6 / P7' },
   discussion: { title: '讨论区', sub: '做题经验与评论' },
   profile: { title: '用户中心', sub: '本地个人信息' },
   stats: { title: '统计图', sub: '练习覆盖与通过率' },
@@ -1041,6 +1048,18 @@ const VIEW_META = {
 };
 
 const ANNOUNCEMENTS = [
+  {
+    date: '2026-11-28',
+    tag: 'P7 更新',
+    title: 'P7 评测上线：12 个题组、488 个测试点',
+    body: `<p>P7 五级流水线 CPU 的强测与 11 道课上题已接入：基础强测 <b>224 点</b>（原有指令、冒险、CP0、异常、外部中断、双 Timer、运行中复位），课上题 Q01—Q11 各 24 点，共 <b>264 点</b>。</p>
+      <p>全站变为 <b>138 个题组 / 2799 个测试点</b>。P7 需要外置 IM/DM 端口、CP0、Timer 与 interrupt；题目册和接口规范在 <code>p7/</code>。</p>
+      <ul>
+        <li>Q01 syscall、Q02 teq、Q03 tltiu、Q04 kernel space、Q05 privileged instruction；</li>
+        <li>Q06 EBase、Q07 withdraw、Q08 Watch、Q09 Memory Limitation、Q10 monitor、Q11 Integer Overflow。</li>
+      </ul>`,
+    actions: [['#/exam/P7', '打开 P7'], ['#/problem/P7-BASE', '直接看基本强测']],
+  },
   {
     date: '2026-11-23',
     tag: 'P6 更新',
@@ -1061,7 +1080,7 @@ const ANNOUNCEMENTS = [
       <ul>
         <li><b>课程公告</b>：版本更新、使用说明和 P3 电路适配提醒；</li>
         <li><b>课下提交</b>：保存本机的提交记录、上传的代码和结果入口；</li>
-        <li><b>课上考试</b>：P3 / P4 / P5 / P6 四个独立入口，进入后题目抽屉只显示对应阶段；</li>
+        <li><b>课上考试</b>：P3 / P4 / P5 / P6 / P7 五个独立入口，进入后题目抽屉只显示对应阶段；</li>
         <li><b>讨论区</b>：发布做题经验、评论；<b>用户中心</b>：本地昵称、学号、邮箱与头像；</li>
         <li><b>统计图</b>：练习覆盖热力图、能力雷达和各阶段进度。</li>
       </ul>`,
@@ -1545,10 +1564,11 @@ function renderStats() {
     data.byStage.P4.rate,
     data.byStage.P5.rate,
     data.byStage.P6.rate,
+    data.byStage.P7.rate,
     allProblems ? Math.round((data.passed / allProblems) * 100) : 0,
     Math.min(100, Math.round((data.attempts / 50) * 100)),
   ];
-  const labels = ['P3', 'P4', 'P5', 'P6', '覆盖', '活跃'];
+  const labels = ['P3', 'P4', 'P5', 'P6', 'P7', '覆盖', '活跃'];
   const cx = 150;
   const cy = 136;
   const radius = 92;
@@ -1676,7 +1696,7 @@ function openHistory() {
 
 const HELP_HTML = `
   <h3>这是什么</h3>
-  <p>本页面是 P3 / P4 / P5 / P6 练习包的本机评测页：P3 的 26 个题组（283 点）、P4 的 18 个题组（60 点）、P5 的 40 道题（960 点）、P6 的 42 道题（1008 点），共 126 个题组、2311 个测试点。页面只监听 <code>127.0.0.1</code>。</p>
+  <p>本页面是 P3 / P4 / P5 / P6 / P7 练习包的本机评测页：P3 的 26 个题组（283 点）、P4 的 18 个题组（60 点）、P5 的 40 道题（960 点）、P6 的 42 道题（1008 点）、P7 的 12 个题组（488 点），共 138 个题组、2799 个测试点。页面只监听 <code>127.0.0.1</code>。</p>
   <h3>使用步骤</h3>
   <p>1. 在题库中选择题目，确认编码模式；<br>
      2. P3 提交一个 Logisim <code>.circ</code> 文件；P4 / P5 / P6 提交 ZIP 或全部 <code>.v</code> / <code>.vh</code> 文件；<br>

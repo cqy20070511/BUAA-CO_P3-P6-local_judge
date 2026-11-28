@@ -1,0 +1,50 @@
+{
+  "BASE": {
+    "name": "P7基本CPU强测",
+    "count": 224
+  },
+  "Q01": {
+    "name": "syscall",
+    "count": 24
+  },
+  "Q02": {
+    "name": "teq",
+    "count": 24
+  },
+  "Q03": {
+    "name": "tltiu",
+    "count": 24
+  },
+  "Q04": {
+    "name": "kernel_space",
+    "count": 24
+  },
+  "Q05": {
+    "name": "privileged_instruction",
+    "count": 24
+  },
+  "Q06": {
+    "name": "EBase",
+    "count": 24
+  },
+  "Q07": {
+    "name": "withdraw",
+    "count": 24
+  },
+  "Q08": {
+    "name": "Watch",
+    "count": 24
+  },
+  "Q09": {
+    "name": "Memory_Limitation",
+    "count": 24
+  },
+  "Q10": {
+    "name": "monitor",
+    "count": 24
+  },
+  "Q11": {
+    "name": "Integer_Overflow",
+    "count": 24
+  }
+}

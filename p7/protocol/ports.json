@@ -1,0 +1,96 @@
+{
+  "module": "mips",
+  "source": "P7提交.zip/mips.v",
+  "ports": [
+    {
+      "name": "clk",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "reset",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "interrupt",
+      "direction": "input",
+      "width": 1
+    },
+    {
+      "name": "macroscopic_pc",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "i_inst_addr",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "i_inst_rdata",
+      "direction": "input",
+      "width": 32
+    },
+    {
+      "name": "m_data_addr",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "m_data_rdata",
+      "direction": "input",
+      "width": 32
+    },
+    {
+      "name": "m_data_wdata",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "m_data_byteen",
+      "direction": "output",
+      "width": 4
+    },
+    {
+      "name": "m_int_addr",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "m_int_byteen",
+      "direction": "output",
+      "width": 4
+    },
+    {
+      "name": "m_inst_addr",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "w_grf_we",
+      "direction": "output",
+      "width": 1
+    },
+    {
+      "name": "w_grf_addr",
+      "direction": "output",
+      "width": 5
+    },
+    {
+      "name": "w_grf_wdata",
+      "direction": "output",
+      "width": 32
+    },
+    {
+      "name": "w_inst_addr",
+      "direction": "output",
+      "width": 32
+    }
+  ],
+  "hwint_bits": {
+    "timer0": 0,
+    "timer1": 1,
+    "external_interrupt": 2
+  }
+}

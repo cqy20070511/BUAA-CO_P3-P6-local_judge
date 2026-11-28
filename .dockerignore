@@ -7,8 +7,6 @@ runs/
 p3/results/
 p4/runs/
 p5/runs/
-tests/
-p5/tests/
 node_modules/
 *.mp4
 *.mkv

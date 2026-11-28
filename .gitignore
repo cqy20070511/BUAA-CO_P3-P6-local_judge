@@ -30,3 +30,8 @@ desktop.ini
 *.mp4
 *.mkv
 *.mov
+
+# P7 派生测试点
+/p7/tests/
+/p7/runs/
+/p7/raw_cases.json

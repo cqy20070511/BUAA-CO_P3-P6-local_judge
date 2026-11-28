@@ -23,6 +23,9 @@ p5_judge=importlib.util.module_from_spec(_p5_spec);_p5_spec.loader.exec_module(p
 P4ROOT=ROOT/'p4'
 _p4_spec=importlib.util.spec_from_file_location('p4_judge',P4ROOT/'judge.py')
 p4_judge=importlib.util.module_from_spec(_p4_spec);_p4_spec.loader.exec_module(p4_judge)
+P7ROOT=ROOT/'p7'
+_p7_spec=importlib.util.spec_from_file_location('p7_judge',P7ROOT/'judge.py')
+p7_judge=importlib.util.module_from_spec(_p7_spec);_p7_spec.loader.exec_module(p7_judge)
 CATALOG=None
 
 JOBS={}
@@ -50,6 +53,8 @@ def manifest():
             merged['P6-'+key]={**spec,'stage':'P6','key':'P6-'+key}
         for key,spec in json.loads((P5ROOT/'cases.json').read_text(encoding='utf-8')).items():
             merged['P5-'+key]={**spec,'stage':'P5','key':'P5-'+key}
+        for key,spec in json.loads((P7ROOT/'cases.json').read_text(encoding='utf-8')).items():
+            merged['P7-'+key]={**spec,'stage':'P7','key':'P7-'+key}
         CATALOG=merged
     return CATALOG
 
@@ -95,6 +100,8 @@ def run_job(job,source):
                 result=p4_judge.judge(job['raw'],source,job['encoding'],on_result=update)
             elif job['stage']=='P5':
                 result=p5_judge.judge(job['raw'],source,job['encoding'],on_result=update)
+            elif job['stage']=='P7':
+                result=p7_judge.judge(job['raw'],source,on_result=update)
             else:
                 result=p6_judge(job['raw'],source,job['encoding'],on_result=update)
             with LOCK:job.update(state='done',message='评测完成',summary=result)
@@ -158,6 +165,7 @@ class Handler(BaseHTTPRequestHandler):
             original=query.get('encoding',['practice'])[0]=='original'
             if original and not spec['original']:return self.send(400,{'error':'本题没有原平台编码'})
             if spec['stage']=='P3':return self.send(404,{'error':'P3 不提供测试点机器码'})
+            if spec['stage']=='P7':return self.send(404,{'error':'P7 不提供测试点机器码'})
             base=ROOT/'p4' if spec['stage']=='P4' else ROOT/'p5' if spec['stage']=='P5' else ROOT
             code=base/spec['path']/case/('code_original.txt' if original else 'code.txt')
             return self.send(200,code.read_bytes(),'text/plain; charset=utf-8')
@@ -237,7 +245,7 @@ def main():
             print(f'端口 {args.port} 已有评测机在运行，请先关闭原窗口，或改用 --port 其他端口。',flush=True)
             return
     server=ThreadingHTTPServer((args.host,args.port),Handler)
-    print(f'P3 / P4 / P5 / P6 评测器已启动：http://{args.host}:{args.port}  （按 Ctrl+C 退出）',flush=True)
+    print(f'P3 / P4 / P5 / P6 / P7 评测器已启动：http://{args.host}:{args.port}  （按 Ctrl+C 退出）',flush=True)
     try:server.serve_forever()
     except KeyboardInterrupt:pass
     finally:server.server_close()
